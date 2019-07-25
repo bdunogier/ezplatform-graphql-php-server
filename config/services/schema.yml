@@ -1,0 +1,48 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    _instanceof:
+        App\Schema\Domain\Content\Worker\BaseWorker:
+            calls:
+                - [setNameHelper, ['@App\Schema\Domain\Content\NameHelper']]
+
+        App\Schema\Worker:
+            tags:
+                - {name: 'ezplatform_graphql.domain_schema_worker'}
+
+        App\Schema\Domain\Iterator:
+            tags:
+                - {name: 'ezplatform_graphql.schema_domain_iterator'}
+
+    App\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent: ~
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper:
+        alias: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper: ~
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables:
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decoration_priority: -5
+        arguments:
+            $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables.inner'
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper:
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper.inner'
+            $typesMap: '%ezplatform_graphql.schema.content.mapping.field_definition_type%'
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper:
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
+            $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper.inner'
+
+    App\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper:
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper.inner'

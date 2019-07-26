@@ -10,9 +10,9 @@
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
 use App\eZ\Platform\Core\Repository\Values\User\User;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Exceptions;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Exceptions;
 
 /**
  * Parser for UserList.
@@ -23,11 +23,11 @@ class UserList extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @todo Error handling
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Role[]
+     * @return \App\eZ\Platform\API\Repository\Values\User\Role[]
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {

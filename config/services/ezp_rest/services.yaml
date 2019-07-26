@@ -1,0 +1,156 @@
+parameters:
+    ezpublish_rest.output.visitor.json.regexps:
+        - '(^application/vnd\.ez\.api\.[A-Za-z]+\+json$)'
+        - '(^application/json$)'
+    ezpublish_rest.output.visitor.xml.regexps:
+        - '(^application/vnd\.ez\.api\.[A-Za-z]+\+xml$)'
+        - '(^application/xml$)'
+        - '(^.*/.*$)'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer: ~
+
+    App\eZ\Platform\Core\Repository\Input\ParserTools: ~
+
+    App\eZ\Platform\Core\Repository\Input\FieldTypeParser: ~
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessorRegistry:
+        lazy: true
+
+    #App\eZ\Platform\Core\Repository\FieldTypeProcessor\ImageProcessor:
+    #    factory: ["@ezpublish_rest.factory", getImageFieldTypeProcessor]
+    #    arguments:
+    #        - "@router"
+    #    tags:
+    #        - { name: ezpublish_rest.field_type_processor, alias: ezimage }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\DateAndTimeProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezdatetime }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\DateProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezdate }
+
+    #App\eZ\Platform\Core\Repository\FieldTypeProcessor\MediaProcessor:
+    #    factory: ["@ezpublish_rest.factory", getMediaFieldTypeProcessor]
+    #    tags:
+    #        - { name: ezpublish_rest.field_type_processor, alias: ezmedia }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\RelationListProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezobjectrelationlist }
+        calls:
+            - [setRouter, ["@router"]]
+            - [setLocationService, ['@App\eZ\Platform\API\Repository\LocationService']]
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\RelationProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezobjectrelation }
+        calls:
+            - [setRouter, ["@router"]]
+            - [setLocationService, ['@App\eZ\Platform\API\Repository\LocationService']]
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\TimeProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: eztime }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\RichTextProcessor:
+        #arguments:
+        #    - "@ezpublish.fieldType.ezrichtext.converter.edit.xhtml5"
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezrichtext }
+
+    #App\eZ\Platform\Core\Repository\FieldTypeProcessor\BinaryProcessor:
+    #    factory: ["@ezpublish_rest.factory", getBinaryFileFieldTypeProcessor]
+    #    arguments:
+    #        - "@ezpublish.core.io.default_url_decorator"
+    #    tags:
+    #        - { name: ezpublish_rest.field_type_processor, alias: ezbinaryfile }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\PageProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezpage }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\FloatProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezfloat }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\StringProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezstring }
+
+    App\eZ\Platform\Core\Repository\FieldTypeProcessor\UserProcessor:
+        tags:
+            - { name: ezpublish_rest.field_type_processor, alias: ezuser }
+
+    # format output visitors
+    App\eZ\Platform\Core\Repository\Output\Visitor: '@App\eZ\Platform\Core\Repository\Output\Visitor\Json'
+
+    App\eZ\Platform\Core\Repository\Output\Visitor\Json:
+        class: 'App\eZ\Platform\Core\Repository\Output\Visitor'
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Output\Generator\Json'
+            - '@App\eZ\Platform\Core\Repository\Output\ValueObjectVisitorDispatcher'
+        tags:
+            - { name: ezpublish_rest.output.visitor, regexps: ezpublish_rest.output.visitor.json.regexps }
+
+    App\eZ\Platform\Core\Repository\Output\Visitor\Xml:
+        class: 'App\eZ\Platform\Core\Repository\Output\Visitor'
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Output\Generator\Xml'
+            - '@App\eZ\Platform\Core\Repository\Output\ValueObjectVisitorDispatcher'
+        tags:
+            - { name: ezpublish_rest.output.visitor, regexps: ezpublish_rest.output.visitor.xml.regexps }
+
+    # format output generators
+    App\eZ\Platform\Core\Repository\Output\Generator\Xml:
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Output\Generator\Xml\FieldTypeHashGenerator'
+        calls:
+            - [ setFormatOutput, [ "%kernel.debug%" ] ]
+
+    App\eZ\Platform\Core\Repository\Output\Generator\Xml\FieldTypeHashGenerator: ~
+
+    App\eZ\Platform\Core\Repository\Output\Generator\Json:
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Output\Generator\Json\FieldTypeHashGenerator'
+        calls:
+            - [ setFormatOutput, [ "%kernel.debug%" ] ]
+
+    App\eZ\Platform\Core\Repository\Output\Generator\Json\FieldTypeHashGenerator: ~
+
+    # value objects visitors
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitorDispatcher: ~
+
+    App\eZ\Platform\Core\Repository\Input\Dispatcher:
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Input\ParsingDispatcher'
+            - []
+
+    App\eZ\Platform\Core\Repository\Input\ParsingDispatcher: ~
+
+    App\eZ\Platform\Core\Repository\Input\Handler\Json:
+        tags:
+            - { name: ezpublish_rest.input.handler, format: json }
+
+    App\eZ\Platform\Core\Repository\Input\Handler\Xml:
+        tags:
+            - { name: ezpublish_rest.input.handler, format: xml }
+
+    ezpublish_rest.templated_router:
+        autowire: false
+        autoconfigure: false
+        class: Symfony\Bundle\FrameworkBundle\Routing\Router
+        parent: hautelook.router.template
+        calls:
+            - [ setOption, [ strict_requirements, ~ ] ]
+
+    App\eZ\Platform\Core\Repository\RequestParser:
+        class: 'App\eZ\Platform\Core\Repository\RequestParser\Router'
+        arguments:
+            - "@router"

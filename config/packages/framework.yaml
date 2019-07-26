@@ -19,3 +19,6 @@ framework:
         scoped_clients:
             ezp_rest.client:
                 base_uri: http://localhost:43082
+                max_redirects: 0
+                headers:
+                    accept: 'application/json'

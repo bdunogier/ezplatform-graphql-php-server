@@ -6,7 +6,7 @@
  */
 namespace App\Schema\Domain\Content\Mapper\FieldDefinition;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition;
 
 class DefaultFieldDefinitionMapper implements FieldDefinitionMapper
 {
@@ -22,6 +22,6 @@ class DefaultFieldDefinitionMapper implements FieldDefinitionMapper
 
     public function mapToFieldValueResolver(FieldDefinition $fieldDefinition): ?string
     {
-        return '@=field';
+        return sprintf("@=value.getFieldValue('%s')", $fieldDefinition->identifier);
     }
 }

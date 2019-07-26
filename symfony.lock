@@ -1,6 +1,27 @@
 {
+    "doctrine/annotations": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "cb4152ebcadbe620ea2261da1a1c5a9b8cea7672"
+        },
+        "files": [
+            "config/routes/annotations.yaml"
+        ]
+    },
     "doctrine/inflector": {
         "version": "v1.3.0"
+    },
+    "doctrine/lexer": {
+        "version": "1.0.2"
+    },
+    "hautelook/templated-uri-bundle": {
+        "version": "3.0.0"
+    },
+    "hautelook/templated-uri-router": {
+        "version": "3.0.0"
     },
     "nikic/php-parser": {
         "version": "v4.2.2"
@@ -30,6 +51,15 @@
             "config/packages/graphql.yaml",
             "config/routes/graphql.yaml"
         ]
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "1.0.1"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.3.1"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "0.4.0"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -159,7 +189,13 @@
     "symfony/polyfill-php73": {
         "version": "v1.11.0"
     },
+    "symfony/profiler-pack": {
+        "version": "v1.0.4"
+    },
     "symfony/property-access": {
+        "version": "v4.3.2"
+    },
+    "symfony/property-info": {
         "version": "v4.3.2"
     },
     "symfony/routing": {
@@ -177,8 +213,17 @@
             "config/routes.yaml"
         ]
     },
+    "symfony/serializer": {
+        "version": "v4.3.2"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.2"
+    },
     "symfony/service-contracts": {
         "version": "v1.1.5"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.3.2"
     },
     "symfony/translation-contracts": {
         "version": "v1.1.5"
@@ -200,14 +245,34 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/var-dumper": {
+        "version": "v4.3.2"
+    },
     "symfony/var-exporter": {
         "version": "v4.3.2"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "config/packages/dev/web_profiler.yaml",
+            "config/packages/test/web_profiler.yaml",
+            "config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/yaml": {
         "version": "v4.3.2"
     },
     "twig/twig": {
         "version": "v2.11.3"
+    },
+    "webmozart/assert": {
+        "version": "1.4.0"
     },
     "webonyx/graphql-php": {
         "version": "v0.13.5"

@@ -15,43 +15,43 @@ use App\eZ\Platform\API\Repository\Values\Content\Location;
 use App\eZ\Platform\API\Repository\Values\Content\Section;
 use App\eZ\Platform\API\Repository\Values\Content\SectionCreateStruct;
 use App\eZ\Platform\API\Repository\Values\Content\SectionUpdateStruct;
-use eZ\Publish\Core\REST\Common\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\REST\Common\Exceptions\ForbiddenException;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
-use eZ\Publish\Core\REST\Common\Message;
-use eZ\Publish\Core\REST\Common\Values\RestContentMetadataUpdateStruct;
+use App\eZ\Platform\Core\Repository\Exceptions\InvalidArgumentException;
+use App\eZ\Platform\Core\Repository\Exceptions\ForbiddenException;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Message;
+use App\eZ\Platform\Core\Repository\Values\RestContentMetadataUpdateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\SectionService}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\SectionService}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\SectionService
+ * @see \App\eZ\Platform\API\Repository\SectionService
  */
 class SectionService implements APISectionService, Sessionable
 {
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -76,12 +76,12 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Creates the a new Section in the content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create a section
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the new identifier in $sectionCreateStruct already exists
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException If the new identifier in $sectionCreateStruct already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\SectionCreateStruct $sectionCreateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\Content\SectionCreateStruct $sectionCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Section The newly create section
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Section The newly create section
      */
     public function createSection(SectionCreateStruct $sectionCreateStruct)
     {
@@ -104,13 +104,13 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Updates the given in the content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create a section
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the new identifier already exists (if set in the update struct)
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException If the new identifier already exists (if set in the update struct)
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Section $section
-     * @param \eZ\Publish\API\Repository\Values\Content\SectionUpdateStruct $sectionUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Section $section
+     * @param \App\eZ\Platform\API\Repository\Values\Content\SectionUpdateStruct $sectionUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Section
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Section
      */
     public function updateSection(Section $section, SectionUpdateStruct $sectionUpdateStruct)
     {
@@ -136,12 +136,12 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Loads a Section from its id ($sectionId).
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if section could not be found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if section could not be found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
      *
      * @param mixed $sectionId
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Section
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Section
      */
     public function loadSection($sectionId)
     {
@@ -159,9 +159,9 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Loads all sections.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
      *
-     * @return array of {@link \eZ\Publish\API\Repository\Values\Content\Section}
+     * @return array of {@link \App\eZ\Platform\API\Repository\Values\Content\Section}
      */
     public function loadSections()
     {
@@ -179,12 +179,12 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Loads a Section from its identifier ($sectionIdentifier).
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if section could not be found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if section could not be found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to read a section
      *
      * @param string $sectionIdentifier
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Section
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Section
      */
     public function loadSectionByIdentifier($sectionIdentifier)
     {
@@ -203,7 +203,7 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Counts the contents which $section is assigned to.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Section $section
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Section $section
      *
      * @return int
      *
@@ -221,7 +221,7 @@ class SectionService implements APISectionService, Sessionable
      *
      * @since 6.0
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Section $section
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Section $section
      *
      * @return bool
      */
@@ -234,10 +234,10 @@ class SectionService implements APISectionService, Sessionable
      * Assigns the content to the given section
      * this method overrides the current assigned section.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to view provided object
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to view provided object
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \eZ\Publish\API\Repository\Values\Content\Section $section
+     * @param \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Section $section
      *
      * @todo In order to make the integration test for this method running, the
      *       countAssignedContents() method must be implemented. Otherwise this
@@ -268,12 +268,12 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Deletes $section from content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the specified section is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to delete a section
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException  if section can not be deleted
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException If the specified section is not found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to delete a section
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\BadStateException  if section can not be deleted
      *         because it is still assigned to some contents.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Section $section
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Section $section
      */
     public function deleteSection(Section $section)
     {
@@ -297,7 +297,7 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Instantiates a new SectionCreateStruct.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\SectionCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\Content\SectionCreateStruct
      */
     public function newSectionCreateStruct()
     {
@@ -307,7 +307,7 @@ class SectionService implements APISectionService, Sessionable
     /**
      * Instantiates a new SectionUpdateStruct.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\SectionUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\Content\SectionUpdateStruct
      */
     public function newSectionUpdateStruct()
     {

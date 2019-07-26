@@ -1,0 +1,198 @@
+services:
+    App\eZ\Platform\Core\Repository\Input\Parser:
+        autowire: true
+        autoconfigure: true
+        abstract: true
+        calls:
+            - [ setRequestParser, [ '@App\eZ\Platform\Core\Repository\RequestParser' ] ]
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentObjectStates:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentObjectStates }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\View:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.View }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ViewResult:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ViewResult }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\SearchHit:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            # The lowercase 's' is on purpose. It's in the specs.
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.searchHit }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Content:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Content }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentInfo:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentInfo }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentType:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentType }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentTypeList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentTypeList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentTypeGroup:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentTypeGroup }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentTypeGroupList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentTypeGroupList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ContentTypeGroupRefList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ContentTypeGroupRefList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ErrorMessage:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ErrorMessage }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\FieldDefinition:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.FieldDefinition }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\FieldDefinitionList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.FieldDefinitionList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Limitation:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Limitation }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Location:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Location }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ObjectState:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ObjectState }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ObjectStateList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ObjectStateList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ObjectStateGroup:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ObjectStateGroup }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\ObjectStateGroupList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.ObjectStateGroupList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Policy:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Policy }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\PolicyList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.PolicyList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Relation:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Relation }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\RelationList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.RelationList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Role:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Role }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\RoleAssignment:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.RoleAssignment }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\RoleAssignmentList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.RoleAssignmentList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\RoleList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.RoleList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Section:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Section }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\SectionList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.SectionList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\VersionInfo:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.VersionInfo }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Version:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Version }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\Session:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.Session }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\UrlAlias:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.UrlAlias }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\UrlAliasRefList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.UrlAliasRefList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\UserRefList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.UserRefList }
+
+    App\eZ\Platform\Core\Repository\Input\Parser\UserList:
+        parent: App\eZ\Platform\Core\Repository\Input\Parser
+        tags:
+            - { name: ezpublish_rest.input.parser, mediaType: application/vnd.ez.api.UserList }

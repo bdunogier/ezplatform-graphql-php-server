@@ -14,15 +14,15 @@ use App\eZ\Platform\API\Repository\Values\Content\Content as APIContent;
 use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\Content}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\Content}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\Content
- * @property-read \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo convenience getter for $versionInfo->contentInfo
- * @property-read \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
+ * @see \App\eZ\Platform\API\Repository\Values\Content\Content
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo convenience getter for $versionInfo->contentInfo
+ * @property-read \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
  * @property-read mixed $id convenience getter for retrieving the contentId: $versionInfo->content->id
- * @property-read \eZ\Publish\API\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
- * @property-read \eZ\Publish\API\Repository\Values\Content\Field[] $fields access fields, calls getFields()
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\Field[] $fields access fields, calls getFields()
  *
  * @todo Implement convenience property access!
  */
@@ -57,10 +57,19 @@ class Content extends APIContent
         }
     }
 
+    public function __get($property)
+    {
+        if ($property === 'id') {
+            return $this->getVersionInfo()->getContentInfo()->id;
+        } else if ($property === 'contentInfo') {
+            return $this->getVersionInfo()->getContentInfo();
+        }
+    }
+
     /**
      * Returns the VersionInfo for this version.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\VersionInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\VersionInfo
      */
     public function getVersionInfo()
     {
@@ -95,7 +104,7 @@ class Content extends APIContent
     /**
      * This method returns the complete fields collection.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field[] An array of {@link Field}
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field[] An array of {@link Field}
      */
     public function getFields()
     {
@@ -109,7 +118,7 @@ class Content extends APIContent
      *
      * @param string $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field[] An array of {@link Field} with field identifier as keys
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field[] An array of {@link Field} with field identifier as keys
      */
     public function getFieldsByLanguage($languageCode = null)
     {
@@ -136,7 +145,7 @@ class Content extends APIContent
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
      */
     public function getField($fieldDefIdentifier, $languageCode = null)
     {

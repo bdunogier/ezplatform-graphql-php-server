@@ -9,9 +9,9 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
 use App\eZ\Platform\Core\Repository\Values;
 use App\eZ\Platform\API\Repository\ContentTypeService;
 
@@ -20,15 +20,15 @@ use App\eZ\Platform\API\Repository\ContentTypeService;
  */
 class FieldDefinitionList extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /** @var \App\eZ\Platform\API\Repository\ContentTypeService */
     protected $contentTypeService;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \App\eZ\Platform\Core\Repository\Input\ParserTools $parserTools
+     * @param \App\eZ\Platform\API\Repository\ContentTypeService $contentTypeService
      */
     public function __construct(ParserTools $parserTools, ContentTypeService $contentTypeService)
     {
@@ -40,9 +40,9 @@ class FieldDefinitionList extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @return \eZ\Publish\Core\Repository\Values\FieldDefinitionList
+     * @return \App\eZ\Platform\Core\Repository\Values\FieldDefinitionList
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {

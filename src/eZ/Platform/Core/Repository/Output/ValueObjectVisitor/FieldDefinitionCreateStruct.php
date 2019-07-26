@@ -9,22 +9,22 @@
 
 namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
 
-use eZ\Publish\Core\REST\Common\Output\FieldTypeSerializer;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
  * FieldDefinitionCreateStruct value object visitor.
  */
 class FieldDefinitionCreateStruct extends ValueObjectVisitor
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\FieldTypeSerializer */
+    /** @var \App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer */
     protected $fieldTypeSerializer;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
-     * @param \eZ\Publish\Core\REST\Common\Output\FieldTypeSerializer $fieldTypeSerializer
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer $fieldTypeSerializer
      */
     public function __construct(FieldTypeSerializer $fieldTypeSerializer)
     {
@@ -34,9 +34,9 @@ class FieldDefinitionCreateStruct extends ValueObjectVisitor
     /**
      * Visit struct returned by controllers.
      *
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $visitor
+     * @param \App\eZ\Platform\Core\Repository\Output\Generator $generator
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      */
     public function visit(Visitor $visitor, Generator $generator, $fieldDefinitionCreateStruct)
     {

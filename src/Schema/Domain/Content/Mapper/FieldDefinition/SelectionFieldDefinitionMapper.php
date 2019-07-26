@@ -6,7 +6,7 @@
  */
 namespace App\Schema\Domain\Content\Mapper\FieldDefinition;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition;
 
 class SelectionFieldDefinitionMapper extends DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
 {

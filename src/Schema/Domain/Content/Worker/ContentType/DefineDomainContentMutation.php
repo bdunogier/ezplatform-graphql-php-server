@@ -6,7 +6,7 @@
  */
 namespace App\Schema\Domain\Content\Worker\ContentType;
 
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
 use App\Schema\Builder;
 use App\Schema\Domain\Content\Worker\BaseWorker;
 use App\Schema\Initializer;

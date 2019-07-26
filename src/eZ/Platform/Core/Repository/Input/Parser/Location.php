@@ -9,10 +9,9 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
-use App\eZ\Platform\API\Repository\Values\Content\Content as APIContent;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
 use App\eZ\Platform\Core\Repository\Values;
 
 /**
@@ -20,11 +19,11 @@ use App\eZ\Platform\Core\Repository\Values;
  */
 class Location extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
+     * @param \App\eZ\Platform\Core\Repository\Input\ParserTools $parserTools
      */
     public function __construct(ParserTools $parserTools)
     {
@@ -35,19 +34,19 @@ class Location extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @todo Error handling
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {
-        $content = $parsingDispatcher->parse($data['Content'], 'Content');
+        $contentInfo = $parsingDispatcher->parse($data['ContentInfo']['Content']);
 
         return new Values\Content\Location(
             array(
-                'contentInfo' => $content instanceof APIContent ? $content->getVersionInfo()->getContentInfo() : null,
+                'contentInfo' => $contentInfo,
                 'id' => $data['_href'],
                 'priority' => (int)$data['priority'],
                 'hidden' => $data['hidden'] === 'true',
@@ -58,6 +57,13 @@ class Location extends BaseParser
                 'depth' => (int)$data['depth'],
                 'sortField' => $this->parserTools->parseDefaultSortField($data['sortField']),
                 'sortOrder' => $this->parserTools->parseDefaultSortOrder($data['sortOrder']),
+
+                'references' => [
+                    'children' => $data['Children'],
+                    'content' => $data['Content'],
+                    'urlAliases' => $data['UrlAliases'],
+                    'parentLocation' => $data['ParentLocation'],
+                ]
             )
         );
     }

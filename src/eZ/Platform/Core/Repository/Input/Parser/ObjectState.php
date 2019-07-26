@@ -9,9 +9,9 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
 use App\eZ\Platform\Core\Repository\Values\ObjectState\ObjectState as CoreObjectState;
 
 /**
@@ -19,7 +19,7 @@ use App\eZ\Platform\Core\Repository\Values\ObjectState\ObjectState as CoreObject
  */
 class ObjectState extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     public function __construct(ParserTools $parserTools)
@@ -31,11 +31,11 @@ class ObjectState extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @todo Error handling
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {

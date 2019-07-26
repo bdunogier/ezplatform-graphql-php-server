@@ -6,12 +6,12 @@
  */
 namespace App\Schema\Domain\Content\Worker\ContentTypeGroup;
 
-use eZ\Publish\API\Repository\ContentTypeService;
 use App\Schema\Domain\Content\Worker\BaseWorker;
 use App\Schema\Worker;
 use App\Schema\Builder\Input;
 use App\Schema\Builder;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
+use App\eZ\Platform\API\Repository\ContentTypeService;
+use App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroup;
 
 final class AddDomainGroupToDomain extends BaseWorker implements Worker
 {

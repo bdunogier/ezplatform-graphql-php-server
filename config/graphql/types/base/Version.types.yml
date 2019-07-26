@@ -1,0 +1,31 @@
+Version:
+    type: object
+    config:
+        description: "Content Version metadata"
+        fields:
+            id:
+                type: "Int"
+            versionNumber:
+                type: "Int"
+                resolve: "@=value.versionNo"
+            names:
+                type: "[String]"
+            name:
+                type: "String"
+                args:
+                    language:
+                        type: RepositoryLanguage
+                resolve: "@=value.getName(args['language']) ?: ''"
+            modificationDate:
+                type: "DateTime"
+            creationDate:
+                type: "DateTime"
+            creatorId:
+                type: "Int"
+            status:
+                type: "Int"
+            initialLanguageCode:
+                type: "String"
+            languageCodes:
+                type: "[String]"
+

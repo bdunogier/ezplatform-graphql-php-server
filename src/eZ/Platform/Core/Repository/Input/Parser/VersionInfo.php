@@ -9,9 +9,9 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
 use App\eZ\Platform\Core\Repository\Values;
 use App\eZ\Platform\API\Repository\ContentService;
 
@@ -20,7 +20,7 @@ use App\eZ\Platform\API\Repository\ContentService;
  */
 class VersionInfo extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /**
@@ -31,8 +31,8 @@ class VersionInfo extends BaseParser
     protected $contentService;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
-     * @param \eZ\Publish\API\Repository\ContentService $contentService
+     * @param \App\eZ\Platform\Core\Repository\Input\ParserTools $parserTools
+     * @param \App\eZ\Platform\API\Repository\ContentService $contentService
      */
     public function __construct(ParserTools $parserTools, ContentService $contentService)
     {
@@ -44,11 +44,11 @@ class VersionInfo extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @todo Error handling
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\VersionInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\VersionInfo
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {

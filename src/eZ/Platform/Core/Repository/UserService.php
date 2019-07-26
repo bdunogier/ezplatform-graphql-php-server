@@ -18,39 +18,39 @@ use App\eZ\Platform\API\Repository\Values\User\UserUpdateStruct;
 use App\eZ\Platform\API\Repository\Values\User\UserGroup;
 use App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct;
 use App\eZ\Platform\API\Repository\Values\User\UserGroupUpdateStruct;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\UserService}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\UserService}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\UserService
+ * @see \App\eZ\Platform\API\Repository\UserService
  */
 class UserService implements APIUserService, Sessionable
 {
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -79,15 +79,15 @@ class UserService implements APIUserService, Sessionable
      * - the content type is determined via configuration and can be set to null.
      * The returned version is published.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroupCreateStruct $userGroupCreateStruct a structure for setting all necessary data to create this user group
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $parentGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct $userGroupCreateStruct a structure for setting all necessary data to create this user group
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $parentGroup
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroup
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserGroup
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the input structure has invalid data
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupCreateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException if a required field is missing
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the input structure has invalid data
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupCreateStruct is not valid
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException if a required field is missing
      */
     public function createUserGroup(UserGroupCreateStruct $userGroupCreateStruct, UserGroup $parentGroup)
     {
@@ -115,9 +115,9 @@ class UserService implements APIUserService, Sessionable
      *
      * the users which are not assigned to other groups will be deleted.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $userGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $userGroup
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to create a user group
      */
     public function deleteUserGroup(UserGroup $userGroup)
     {
@@ -127,10 +127,10 @@ class UserService implements APIUserService, Sessionable
     /**
      * Moves the user group to another parent.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $userGroup
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $newParent
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $userGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $newParent
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
      */
     public function moveUserGroup(UserGroup $userGroup, UserGroup $newParent)
     {
@@ -143,14 +143,14 @@ class UserService implements APIUserService, Sessionable
      * 4.x: If the versionUpdateStruct is set in $userGroupUpdateStruct, this method internally creates a content draft, updates ts with the provided data
      * and publishes the draft. If a draft is explicitly required, the user group can be updated via the content service methods.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $userGroup
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroupUpdateStruct $userGroupUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $userGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroupUpdateStruct $userGroupUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroup
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserGroup
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupUpdateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException if a required field is set empty
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userGroupUpdateStruct is not valid
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException if a required field is set empty
      */
     public function updateUserGroup(UserGroup $userGroup, UserGroupUpdateStruct $userGroupUpdateStruct)
     {
@@ -160,16 +160,16 @@ class UserService implements APIUserService, Sessionable
     /**
      * Create a new user. The created user is published by this method.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserCreateStruct $userCreateStruct the data used for creating the user
-     * @param array $parentGroups the groups of type {@link \eZ\Publish\API\Repository\Values\User\UserGroup} which are assigned to the user after creation
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserCreateStruct $userCreateStruct the data used for creating the user
+     * @param array $parentGroups the groups of type {@link \App\eZ\Platform\API\Repository\Values\User\UserGroup} which are assigned to the user after creation
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if a user group was not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userCreateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException if a required field is missing
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if a user with provided login already exists
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to move the user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if a user group was not found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userCreateStruct is not valid
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException if a required field is missing
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if a user with provided login already exists
      */
     public function createUser(UserCreateStruct $userCreateStruct, array $parentGroups)
     {
@@ -190,7 +190,7 @@ class UserService implements APIUserService, Sessionable
      * @deprecated since 5.3, use loadUser( $anonymousUserId ) instead
      *
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function loadAnonymousUser()
     {
@@ -227,7 +227,7 @@ class UserService implements APIUserService, Sessionable
      * @param string $hash
      * @param array $prioritizedLanguages
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function loadUserByToken($hash, array $prioritizedLanguages = [])
     {
@@ -237,9 +237,9 @@ class UserService implements APIUserService, Sessionable
     /**
      * This method deletes a user.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\User $user
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to delete the user
      */
     public function deleteUser(User $user)
     {
@@ -252,14 +252,14 @@ class UserService implements APIUserService, Sessionable
      * 4.x: If the versionUpdateStruct is set in the user update structure, this method internally creates a content draft, updates ts with the provided data
      * and publishes the draft. If a draft is explicitly required, the user group can be updated via the content service methods.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
-     * @param \eZ\Publish\API\Repository\Values\User\UserUpdateStruct $userUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\User\User $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserUpdateStruct $userUpdateStruct
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to update the user
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userUpdateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException if a required field is set empty
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to update the user
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentFieldValidationException if a field in the $userUpdateStruct is not valid
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException if a required field is set empty
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function updateUser(User $user, UserUpdateStruct $userUpdateStruct)
     {
@@ -269,10 +269,10 @@ class UserService implements APIUserService, Sessionable
     /**
      * Update the user token information specified by the user token struct.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
-     * @param \eZ\Publish\API\Repository\Values\User\UserTokenUpdateStruct $userTokenUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\User\User $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserTokenUpdateStruct $userTokenUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function updateUserToken(User $user, UserTokenUpdateStruct $userTokenUpdateStruct)
     {
@@ -293,11 +293,11 @@ class UserService implements APIUserService, Sessionable
     /**
      * Assigns a new user group to the user.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $userGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\User $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $userGroup
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to assign the user group to the user
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the user is already in the given user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to assign the user group to the user
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the user is already in the given user group
      */
     public function assignUserToUserGroup(User $user, UserGroup $userGroup)
     {
@@ -307,11 +307,11 @@ class UserService implements APIUserService, Sessionable
     /**
      * Removes a user group from the user.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\User $user
-     * @param \eZ\Publish\API\Repository\Values\User\UserGroup $userGroup
+     * @param \App\eZ\Platform\API\Repository\Values\User\User $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserGroup $userGroup
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to remove the user group from the user
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the user is not in the given user group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to remove the user group from the user
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the user is not in the given user group
      */
     public function unAssignUserFromUserGroup(User $user, UserGroup $userGroup)
     {
@@ -368,9 +368,9 @@ class UserService implements APIUserService, Sessionable
      * @param string $email the email of the new user
      * @param string $password the plain password of the new user
      * @param string $mainLanguageCode the main language for the underlying content object
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserCreateStruct
      */
     public function newUserCreateStruct($login, $email, $password, $mainLanguageCode, $contentType = null)
     {
@@ -381,9 +381,9 @@ class UserService implements APIUserService, Sessionable
      * Instantiate a user group create class.
      *
      * @param string $mainLanguageCode The main language for the underlying content object
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroupCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct
      */
     public function newUserGroupCreateStruct($mainLanguageCode, $contentType = null)
     {
@@ -393,7 +393,7 @@ class UserService implements APIUserService, Sessionable
     /**
      * Instantiate a new user update struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserUpdateStruct
      */
     public function newUserUpdateStruct()
     {
@@ -403,7 +403,7 @@ class UserService implements APIUserService, Sessionable
     /**
      * Instantiate a new user group update struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroupUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserGroupUpdateStruct
      */
     public function newUserGroupUpdateStruct()
     {

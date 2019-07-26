@@ -11,10 +11,10 @@ namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
 
 use App\eZ\Platform\API\Repository\Values\Content\Field;
 use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\REST\Common\Output\FieldTypeSerializer;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
  * ContentCreateStruct value object visitor.
@@ -27,8 +27,8 @@ class RestContentCreateStruct extends ValueObjectVisitor
     }
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $visitor
+     * @param \App\eZ\Platform\Core\Repository\Output\Generator $generator
      * @param \eZ\Publish\Core\REST\Server\Values\RestContentCreateStruct $restContentCreateStruct
      */
     public function visit(Visitor $visitor, Generator $generator, $restContentCreateStruct)
@@ -89,9 +89,9 @@ class RestContentCreateStruct extends ValueObjectVisitor
     /**
      * Visits a single content field and generates its content.
      *
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
+     * @param \App\eZ\Platform\Core\Repository\Output\Generator $generator
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Field $field
      */
     public function visitField(Generator $generator, ContentType $contentType, Field $field)
     {

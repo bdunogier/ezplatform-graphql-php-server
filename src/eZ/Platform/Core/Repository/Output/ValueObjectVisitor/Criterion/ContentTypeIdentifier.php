@@ -5,16 +5,16 @@
  */
 namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\Criterion;
 
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 class ContentTypeIdentifier extends ValueObjectVisitor
 {
     /**
      * @param Visitor $visitor
      * @param Generator $generator
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $data
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $data
      */
     public function visit(Visitor $visitor, Generator $generator, $data)
     {

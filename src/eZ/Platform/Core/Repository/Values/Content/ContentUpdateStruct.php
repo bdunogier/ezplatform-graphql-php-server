@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\Content\Field;
 use App\eZ\Platform\API\Repository\Values\Content\ContentUpdateStruct as APIContentUpdateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\ContentUpdateStruct}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct
+ * @see \App\eZ\Platform\API\Repository\Values\Content\ContentUpdateStruct
  */
 class ContentUpdateStruct extends APIContentUpdateStruct
 {

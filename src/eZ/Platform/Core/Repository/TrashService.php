@@ -15,10 +15,10 @@ use App\eZ\Platform\API\Repository\Values\Content\Location;
 use App\eZ\Platform\API\Repository\Values\Content\Trash\SearchResult;
 use App\eZ\Platform\API\Repository\Values\Content\TrashItem as APITrashItem;
 use App\eZ\Platform\Core\Repository\Values\Content\TrashItem;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Message;
 
 /**
  * Trash service used for content/location trash handling.
@@ -31,26 +31,26 @@ class TrashService implements APITrashService, Sessionable
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\LocationService $locationService
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\LocationService $locationService
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(LocationService $locationService, HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(LocationService $locationService, \Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
         $this->locationService = $locationService;
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -75,12 +75,12 @@ class TrashService implements APITrashService, Sessionable
      *
      * Note that $id is identical to original location, which has been previously trashed
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the trashed location
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException - if the location with the given id does not exist
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the trashed location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException - if the location with the given id does not exist
      *
      * @param mixed $trashItemId
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\TrashItem
+     * @return \App\eZ\Platform\API\Repository\Values\Content\TrashItem
      */
     public function loadTrashItem($trashItemId)
     {
@@ -103,11 +103,11 @@ class TrashService implements APITrashService, Sessionable
      * The current user may not have access to the returned trash item, check before using it.
      * Content is left untouched.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to trash the given location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to trash the given location
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\TrashItem
+     * @return \App\eZ\Platform\API\Repository\Values\Content\TrashItem
      */
     public function trash(Location $location)
     {
@@ -117,14 +117,14 @@ class TrashService implements APITrashService, Sessionable
     /**
      * Recovers the $trashedLocation at its original place if possible.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to recover the trash item at the parent location location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to recover the trash item at the parent location location
      *
      * If $newParentLocation is provided, $trashedLocation will be restored under it.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\TrashItem $trashItem
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $newParentLocation
+     * @param \App\eZ\Platform\API\Repository\Values\Content\TrashItem $trashItem
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $newParentLocation
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location the newly created or recovered location
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location the newly created or recovered location
      */
     public function recover(APITrashItem $trashItem, Location $newParentLocation = null)
     {
@@ -137,7 +137,7 @@ class TrashService implements APITrashService, Sessionable
      * All locations contained in the trash will be removed. Content objects will be removed
      * if all locations of the content are gone.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to empty the trash
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to empty the trash
      */
     public function emptyTrash()
     {
@@ -163,9 +163,9 @@ class TrashService implements APITrashService, Sessionable
      *
      * The corresponding content object will be removed
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete this trash item
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete this trash item
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\TrashItem $trashItem
+     * @param \App\eZ\Platform\API\Repository\Values\Content\TrashItem $trashItem
      */
     public function deleteTrashItem(APITrashItem $trashItem)
     {
@@ -191,9 +191,9 @@ class TrashService implements APITrashService, Sessionable
      *
      * $query allows to filter/sort the elements to be contained in the collection.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Query $query
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Trash\SearchResult
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Trash\SearchResult
      */
     public function findTrashItems(Query $query)
     {
@@ -222,9 +222,9 @@ class TrashService implements APITrashService, Sessionable
     /**
      * Converts the Location value object to TrashItem value object.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\TrashItem
+     * @return \App\eZ\Platform\API\Repository\Values\Content\TrashItem
      */
     protected function buildTrashItem(Location $location)
     {

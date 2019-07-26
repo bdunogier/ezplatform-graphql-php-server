@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\Content;
 use App\eZ\Platform\API\Repository\Values\Content\TrashItem as APITrashItem;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\TrashItem}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\TrashItem}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\TrashItem
+ * @see \App\eZ\Platform\API\Repository\Values\Content\TrashItem
  */
 class TrashItem extends APITrashItem
 {
@@ -25,7 +25,7 @@ class TrashItem extends APITrashItem
     /**
      * Returns the content info of the content object of this location.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\ContentInfo
      */
     public function getContentInfo()
     {

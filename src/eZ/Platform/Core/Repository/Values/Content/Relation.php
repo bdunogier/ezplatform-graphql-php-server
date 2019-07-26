@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\Content;
 use App\eZ\Platform\API\Repository\Values\Content\Relation as APIRelation;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\Relation}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\Relation}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\Relation
+ * @see \App\eZ\Platform\API\Repository\Values\Content\Relation
  */
 class Relation extends APIRelation
 {
@@ -31,7 +31,7 @@ class Relation extends APIRelation
     /**
      * the content of the source content of the relation.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\ContentInfo
      */
     public function getSourceContentInfo()
     {
@@ -41,7 +41,7 @@ class Relation extends APIRelation
     /**
      * the content of the destination content of the relation.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\ContentInfo
      */
     public function getDestinationContentInfo()
     {

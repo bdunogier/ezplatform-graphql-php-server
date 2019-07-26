@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\User\Limitation;
 use App\eZ\Platform\API\Repository\Values\User\PolicyCreateStruct as APIPolicyCreateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\PolicyCreateStruct}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\PolicyCreateStruct}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\PolicyCreateStruct
+ * @see \App\eZ\Platform\API\Repository\Values\User\PolicyCreateStruct
  */
 class PolicyCreateStruct extends APIPolicyCreateStruct
 {
@@ -46,7 +46,7 @@ class PolicyCreateStruct extends APIPolicyCreateStruct
     /**
      * Returns list of limitations added to policy.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation[]
+     * @return \App\eZ\Platform\API\Repository\Values\User\Limitation[]
      */
     public function getLimitations()
     {
@@ -56,7 +56,7 @@ class PolicyCreateStruct extends APIPolicyCreateStruct
     /**
      * Adds a limitation with the given identifier and list of values.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitation
+     * @param \App\eZ\Platform\API\Repository\Values\User\Limitation $limitation
      */
     public function addLimitation(Limitation $limitation)
     {

@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\Content\Field;
 use App\eZ\Platform\API\Repository\Values\User\UserCreateStruct as APIUserCreateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\UserCreateStruct}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\UserCreateStruct}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\UserCreateStruct
+ * @see \App\eZ\Platform\API\Repository\Values\User\UserCreateStruct
  */
 class UserCreateStruct extends APIUserCreateStruct
 {

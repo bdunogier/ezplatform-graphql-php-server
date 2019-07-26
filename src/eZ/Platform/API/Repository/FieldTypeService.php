@@ -11,7 +11,7 @@ namespace App\eZ\Platform\API\Repository;
 /**
  * An implementation of this class provides access to FieldTypes.
  *
- * @see eZ\Platform\API\Repository\FieldType
+ * @see \App\eZ\Platform\API\Repository\FieldType
  */
 interface FieldTypeService
 {

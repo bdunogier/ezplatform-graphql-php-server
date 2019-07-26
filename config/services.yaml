@@ -1,5 +1,6 @@
 imports:
-    - { resource: services/schema.yml }
+    - { resource: services/*.yaml }
+    - { resource: services/ezp_rest/*.yaml }
 
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
@@ -16,7 +17,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,eZ,GraphQL}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -27,8 +28,26 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\GraphQL\InputMapper\:
+        resource: '../src/GraphQL/InputMapper/*'
+
     App\Schema\Domain\Content\ContentDomainIterator:
         tags:
             - {name: 'ezplatform_graphql.schema_domain_iterator'}
 
+    App\Command\GeneratePlatformSchemaCommand:
+        arguments:
+            $schemaRootDir: '%kernel.project_dir%/config/graphql/types/ezplatform'
 
+    _instanceof:
+        App\Schema\Domain\Content\Worker\BaseWorker:
+            calls:
+                - [setNameHelper, ['@App\Schema\Domain\Content\NameHelper']]
+
+        App\Schema\Worker:
+            tags:
+                - {name: 'ezplatform_graphql.domain_schema_worker'}
+
+        App\Schema\Domain\Iterator:
+            tags:
+                - {name: 'ezplatform_graphql.schema_domain_iterator'}

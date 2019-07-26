@@ -11,7 +11,7 @@ use App\eZ\Platform\Core\Repository\Values\ViewResult;
 
 /**
  * @property-read string $identifier
- * @property-read \eZ\Publish\API\Repository\Values\Content\Query $query
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\Query $query
  * @property-read ViewResult $result
  */
 class View extends ValueObject

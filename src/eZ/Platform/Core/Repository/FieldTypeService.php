@@ -10,7 +10,9 @@
 namespace App\eZ\Platform\Core\Repository;
 
 use App\eZ\Platform\API\Repository\FieldTypeService as APIFieldTypeService;
-use eZ\Publish\Core\REST\Common\Exceptions;
+use App\eZ\Platform\API\Repository\FieldType;
+use App\eZ\Platform\Core\FieldType\Generic\Type as GenericType;
+use App\eZ\Platform\Core\Repository\Exceptions;
 
 class FieldTypeService implements APIFieldTypeService
 {
@@ -22,7 +24,7 @@ class FieldTypeService implements APIFieldTypeService
     protected $fieldTypes = array();
 
     /**
-     * @param \eZ\Publish\Core\Repository\FieldType[] $fieldTypes
+     * @param \App\eZ\Platform\Core\Repository\FieldType[] $fieldTypes
      */
     public function __construct(array $fieldTypes = array())
     {
@@ -46,7 +48,7 @@ class FieldTypeService implements APIFieldTypeService
     /**
      * Returns a list of all field types.
      *
-     * @return \eZ\Publish\API\Repository\FieldType[]
+     * @return \App\eZ\Platform\API\Repository\FieldType[]
      */
     public function getFieldTypes()
     {
@@ -58,23 +60,18 @@ class FieldTypeService implements APIFieldTypeService
      *
      * @param string $identifier
      *
-     * @return \eZ\Publish\API\Repository\FieldType
+     * @return \App\eZ\Platform\API\Repository\FieldType
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException
      *         if there is no FieldType registered with $identifier
      */
     public function getFieldType($identifier)
     {
-        if ($this->hasFieldType($identifier)) {
-            return $this->fieldTypes[$identifier];
+        if (!$this->hasFieldType($identifier)) {
+            $this->fieldTypes[$identifier] = new GenericType($identifier);
         }
 
-        throw new Exceptions\NotFoundException(
-            sprintf(
-                'FieldType with identifier "%s" not found.',
-                $identifier
-            )
-        );
+        return $this->fieldTypes[$identifier];
     }
 
     /**

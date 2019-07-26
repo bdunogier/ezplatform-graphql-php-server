@@ -10,39 +10,41 @@ namespace App\eZ\Platform\Core\Repository;
 
 use App\eZ\Platform\API\Repository\URLAliasService as APIURLAliasService;
 use App\eZ\Platform\API\Repository\Values\Content\Location;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\API\Repository\Values\Content\URLAliasRef;
+use App\eZ\Platform\API\Repository\Values\Content\URLAliasRefList;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\URLAliasService}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\URLAliasService}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\URLAliasService
+ * @see \App\eZ\Platform\API\Repository\URLAliasService
  */
 class URLAliasService implements APIURLAliasService, Sessionable
 {
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -71,15 +73,15 @@ class URLAliasService implements APIURLAliasService, Sessionable
      * Hence the path returned in the URLAlias Value may differ from the given.
      * $alwaysAvailable makes the alias available in all languages.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      * @param string $path
      * @param string $languageCode the languageCode for which this alias is valid
      * @param bool $forwarding if true a redirect is performed
      * @param bool $alwaysAvailable
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the path already exists for the given language
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the path already exists for the given language
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias
      */
     public function createUrlAlias(Location $location, $path, $languageCode, $forwarding = false, $alwaysAvailable = false)
     {
@@ -96,7 +98,7 @@ class URLAliasService implements APIURLAliasService, Sessionable
      *
      * $alwaysAvailable makes the alias available in all languages.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the path already exists for the given
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the path already exists for the given
      *         language or if resource is not valid
      *
      * @param string $resource
@@ -105,7 +107,7 @@ class URLAliasService implements APIURLAliasService, Sessionable
      * @param bool $forwarding
      * @param bool $alwaysAvailable
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias
      */
     public function createGlobalUrlAlias($resource, $path, $languageCode, $forwarding = false, $alwaysAvailable = false)
     {
@@ -115,15 +117,41 @@ class URLAliasService implements APIURLAliasService, Sessionable
     /**
      * List of url aliases pointing to $location, sorted by language priority.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      * @param bool $custom if true the user generated aliases are listed otherwise the autogenerated
      * @param string $languageCode filters those which are valid for the given language
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias[]
      */
     public function listLocationAliases(Location $location, $custom = true, $languageCode = null)
     {
-        throw new \Exception('@todo: Implement.');
+        $response = $this->client->request(
+            'GET',
+            $location->references['urlAliases']['_href'],
+            [
+                'query' => ['custom' => 'false'],
+                'headers' => ['accept' => $location->references['urlAliases']['_media-type']],
+            ]
+        );
+
+        $refList = $this->inputDispatcher->parse($response);
+
+        if (!$refList instanceof UrlAliasRefList) {
+            throw new \Exception("@todo fixme");
+        }
+
+        return array_map(
+            function(URLAliasRef $ref) {
+                return $this->inputDispatcher->parse(
+                    $this->client->request(
+                        'GET',
+                        $ref->href,
+                        ['headers' => ['accept' => $ref->mediaType]]
+                    )
+                );
+            },
+            $refList->refList
+        );
     }
 
     /**
@@ -133,7 +161,7 @@ class URLAliasService implements APIURLAliasService, Sessionable
      * @param int $offset
      * @param int $limit
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias[]
      */
     public function listGlobalAliases($languageCode = null, $offset = 0, $limit = -1)
     {
@@ -145,10 +173,10 @@ class URLAliasService implements APIURLAliasService, Sessionable
      *
      * This method does not remove autogenerated aliases for locations.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if alias list contains
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if alias list contains
      *         autogenerated alias
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\URLAlias[] $aliasList
+     * @param \App\eZ\Platform\API\Repository\Values\Content\URLAlias[] $aliasList
      */
     public function removeAliases(array $aliasList)
     {
@@ -161,9 +189,9 @@ class URLAliasService implements APIURLAliasService, Sessionable
      * @param string $url
      * @param string $languageCode
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias
      */
     public function lookup($url, $languageCode = null)
     {
@@ -175,12 +203,12 @@ class URLAliasService implements APIURLAliasService, Sessionable
      *
      * If $languageCode is null the method returns the url alias in the most prioritized language.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if no url alias exist for the given language
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if no url alias exist for the given language
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      * @param string $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias
      */
     public function reverseLookup(Location $location, $languageCode = null)
     {
@@ -190,11 +218,11 @@ class URLAliasService implements APIURLAliasService, Sessionable
     /**
      * Loads URL alias by given $id.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException
      *
      * @param string $id
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \App\eZ\Platform\API\Repository\Values\Content\URLAlias
      */
     public function load($id)
     {
@@ -204,7 +232,7 @@ class URLAliasService implements APIURLAliasService, Sessionable
     /**
      * Refresh all system URL aliases for the given Location (and historize outdated if needed).
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
      * @throws \Exception
      */

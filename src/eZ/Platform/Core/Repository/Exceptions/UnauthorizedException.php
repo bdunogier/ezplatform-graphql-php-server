@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Exceptions;
 use App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Exceptions\UnauthorizedException}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+ * @see \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException
  */
 class UnauthorizedException extends APIUnauthorizedException
 {

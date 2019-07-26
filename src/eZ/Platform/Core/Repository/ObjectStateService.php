@@ -8,10 +8,10 @@
  */
 namespace App\eZ\Platform\Core\Repository;
 
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Message;
 use App\eZ\Platform\API\Repository\ObjectStateService as APIObjectStateService;
 use App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateUpdateStruct;
 use App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateCreateStruct;
@@ -20,7 +20,7 @@ use App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup;
 use App\eZ\Platform\API\Repository\Values\Content\ContentInfo;
 use App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState;
 use App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct;
-use eZ\Publish\Core\REST\Common\Values\ContentObjectStates;
+use App\eZ\Platform\Core\Repository\Values\ContentObjectStates;
 
 /**
  * ObjectStateService service.
@@ -30,24 +30,24 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -72,12 +72,12 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Creates a new object state group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup
      */
     public function createObjectStateGroup(ObjectStateGroupCreateStruct $objectStateGroupCreateStruct)
     {
@@ -145,13 +145,13 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Updates an object state group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the object state group with provided identifier already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup
      */
     public function updateObjectStateGroup(ObjectStateGroup $objectStateGroup, ObjectStateGroupUpdateStruct $objectStateGroupUpdateStruct)
     {
@@ -173,9 +173,9 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Deletes a object state group including all states and links to content.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state group
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
      */
     public function deleteObjectStateGroup(ObjectStateGroup $objectStateGroup)
     {
@@ -202,13 +202,13 @@ class ObjectStateService implements APIObjectStateService, Sessionable
      * Note: in current kernel: If it is the first state all content objects will
      * set to this state.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create an object state
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState
      */
     public function createObjectState(ObjectStateGroup $objectStateGroup, ObjectStateCreateStruct $objectStateCreateStruct)
     {
@@ -243,13 +243,13 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Updates an object state.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to update an object state
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the object state with provided identifier already exists in the same group
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState $objectState
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState
      */
     public function updateObjectState(ObjectState $objectState, ObjectStateUpdateStruct $objectStateUpdateStruct)
     {
@@ -271,9 +271,9 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Changes the priority of the state.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to change priority on an object state
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to change priority on an object state
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState $objectState
      * @param int $priority
      */
     public function setPriorityOfObjectState(ObjectState $objectState, $priority)
@@ -285,9 +285,9 @@ class ObjectStateService implements APIObjectStateService, Sessionable
      * Deletes a object state. The state of the content objects is reset to the
      * first object state in the group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete an object state
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState $objectState
      */
     public function deleteObjectState(ObjectState $objectState)
     {
@@ -311,12 +311,12 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Sets the object-state of a state group to $state for the given content.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the object state does not belong to the given group
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to change the object state
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the object state does not belong to the given group
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to change the object state
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState
+     * @param \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState $objectState
      */
     public function setContentState(ContentInfo $contentInfo, ObjectStateGroup $objectStateGroup, ObjectState $objectState)
     {
@@ -341,10 +341,10 @@ class ObjectStateService implements APIObjectStateService, Sessionable
      *
      * The $state is the id of the state within one group.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState
      */
     public function getContentState(ContentInfo $contentInfo, ObjectStateGroup $objectStateGroup)
     {
@@ -370,7 +370,7 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Returns the number of objects which are in this state.
      *
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectState $objectState
+     * @param \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectState $objectState
      *
      * @return int
      */
@@ -384,7 +384,7 @@ class ObjectStateService implements APIObjectStateService, Sessionable
      *
      * @param string $identifier
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct
      */
     public function newObjectStateGroupCreateStruct($identifier)
     {
@@ -398,7 +398,7 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Instantiates a new Object State Group Update Struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct
      */
     public function newObjectStateGroupUpdateStruct()
     {
@@ -410,7 +410,7 @@ class ObjectStateService implements APIObjectStateService, Sessionable
      *
      * @param string $identifier
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateCreateStruct
      */
     public function newObjectStateCreateStruct($identifier)
     {
@@ -424,7 +424,7 @@ class ObjectStateService implements APIObjectStateService, Sessionable
     /**
      * Instantiates a new Object State Update Struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateUpdateStruct
      */
     public function newObjectStateUpdateStruct()
     {

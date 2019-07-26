@@ -31,7 +31,7 @@ class FieldDefinitionList
     protected $contentTypeService;
 
     /**
-     * @param \eZ\Publish\Core\Repository\ContentTypeService $contentTypeService
+     * @param \App\eZ\Platform\Core\Repository\ContentTypeService $contentTypeService
      * @param string[] $fieldDefinitionReferences
      */
     public function __construct(ContentTypeService $contentTypeService, array $fieldDefinitionReferences)
@@ -43,7 +43,7 @@ class FieldDefinitionList
     /**
      * Fetches and returns the field definitions contained in the list.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition[]
      */
     public function getFieldDefinitions()
     {

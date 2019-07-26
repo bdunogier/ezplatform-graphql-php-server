@@ -9,7 +9,7 @@
 namespace App\eZ\Platform\API\Repository\Values\Content;
 
 use App\eZ\Platform\API\Repository\Values\ValueObject;
-use eZ\Publish\SPI\Repository\Values\MultiLanguageName;
+use App\eZ\Platform\API\Repository\Values\MultiLanguageName;
 
 /**
  * This class holds version information data. It also contains the corresponding {@link Content} to

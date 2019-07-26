@@ -10,9 +10,9 @@
 namespace App\eZ\Platform\Core\Repository;
 
 use App\eZ\Platform\API\Repository\Values\User\UserReference;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 use App\eZ\Platform\Core\Repository\HttpClient\Authentication\IntegrationTestAuthenticator;
 
 /**
@@ -20,7 +20,7 @@ use App\eZ\Platform\Core\Repository\HttpClient\Authentication\IntegrationTestAut
  *
  * Note: NEVER USE THIS IN PRODUCTION!
  *
- * @see \eZ\Publish\API\Repository\Repository
+ * @see \App\eZ\Platform\API\Repository\Repository
  */
 class IntegrationTestRepository extends Repository implements Sessionable
 {
@@ -48,16 +48,16 @@ class IntegrationTestRepository extends Repository implements Sessionable
     /**
      * Instantiates the REST Client repository.
      *
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
      * @param \eZ\Publish\SPI\FieldType\FieldType[] $fieldTypes
-     * @param \eZ\Publish\Core\Repository\HttpClient\Authentication\IntegrationTestAuthentication $authenticator
+     * @param \App\eZ\Platform\Core\Repository\HttpClient\Authentication\IntegrationTestAuthentication $authenticator
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser, array $fieldTypes, IntegrationTestAuthenticator $authenticator)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser, array $fieldTypes, IntegrationTestAuthenticator $authenticator)
     {
         parent::__construct($client, $inputDispatcher, $outputVisitor, $requestParser, $fieldTypes);
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->authenticator = $authenticator;
     }
 
@@ -80,7 +80,7 @@ class IntegrationTestRepository extends Repository implements Sessionable
     /**
      * Get current user.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function getCurrentUser()
     {
@@ -90,7 +90,7 @@ class IntegrationTestRepository extends Repository implements Sessionable
     /**
      * Sets the current user to the given $user.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserReference $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserReference $user
      *
      * @return void
      */

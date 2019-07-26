@@ -6,7 +6,7 @@
  */
 namespace App\Schema\Domain\Content;
 
-use eZ\Publish\API\Repository\LanguageService;
+use App\eZ\Platform\API\Repository\LanguageService;
 use App\Schema\Domain\Iterator;
 use App\Schema\Builder;
 use Generator;

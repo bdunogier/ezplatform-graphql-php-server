@@ -8,10 +8,10 @@
  */
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Exceptions;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Exceptions;
 use App\eZ\Platform\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
 use App\eZ\Platform\Core\Repository\Values\View as ViewValue;
 
 /**
@@ -23,9 +23,9 @@ class View extends BaseParser
      * Parses input structure to a RestViewInput struct.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @throws \eZ\Publish\Core\REST\Common\Exceptions\Parser
+     * @throws \App\eZ\Platform\Core\Repository\Exceptions\Parser
      *
      * @return \eZ\Publish\Core\REST\Server\Values\RestViewInput
      */
@@ -41,15 +41,15 @@ class View extends BaseParser
 
         // query
         if (array_key_exists('ContentQuery', $data) && is_array($data['ContentQuery'])) {
-            $viewData['query'] = $parsingDispatcher->parse($data['Query'], 'application/vnd.ez.api.internal.ContentQuery');
+            //$viewData['query'] = $parsingDispatcher->parse($data['Query'], 'application/vnd.ez.api.internal.ContentQuery');
         }
 
         elseif (array_key_exists('LocationQuery', $data) && is_array($data['LocationQuery'])) {
-            $viewData['query'] = $parsingDispatcher->parse($data['LocationQuery'], 'application/vnd.ez.api.internal.LocationQuery');
+            //$viewData['query'] = $parsingDispatcher->parse($data['LocationQuery'], 'application/vnd.ez.api.internal.LocationQuery');
         }
 
         elseif (array_key_exists('Query', $data) && is_array($data['Query'])) {
-            $viewData['query'] = $parsingDispatcher->parse($data['Query'], 'application/vnd.ez.api.internal.ContentQuery');
+            //$viewData['query'] = $parsingDispatcher->parse($data['Query'], 'application/vnd.ez.api.internal.ContentQuery');
         }
 
         else {

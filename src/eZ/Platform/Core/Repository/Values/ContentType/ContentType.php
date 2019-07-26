@@ -81,7 +81,7 @@ class ContentType extends APIContentType
     /**
      * This method returns the content type groups this content type is assigned to.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroup[]
      */
     public function getContentTypeGroups()
     {
@@ -95,7 +95,7 @@ class ContentType extends APIContentType
     /**
      * This method returns the content type field definitions from this type.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition[]
      */
     public function getFieldDefinitions()
     {

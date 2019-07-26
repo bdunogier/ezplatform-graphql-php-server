@@ -11,10 +11,10 @@ namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
 
 use App\eZ\Platform\API\Repository\Values\Content\Field;
 use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\REST\Common\Output\FieldTypeSerializer;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
  * Visits a ContentUpdateStruct into a VersionUpdate request.
@@ -22,7 +22,7 @@ use eZ\Publish\Core\REST\Common\Output\Visitor;
 class VersionUpdate extends ValueObjectVisitor
 {
     /**
-     * @param \eZ\Publish\Core\REST\Common\Output\FieldTypeSerializer $fieldTypeSerializer
+     * @param \App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer $fieldTypeSerializer
      */
     public function __construct(FieldTypeSerializer $fieldTypeSerializer)
     {
@@ -30,9 +30,9 @@ class VersionUpdate extends ValueObjectVisitor
     }
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $visitor
-     * @param \eZ\Publish\Core\REST\Common\Output\Generator $generator
-     * @param \eZ\Publish\Core\Repository\Values\Content\VersionUpdate $versionUpdate
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $visitor
+     * @param \App\eZ\Platform\Core\Repository\Output\Generator $generator
+     * @param \App\eZ\Platform\Core\Repository\Values\Content\VersionUpdate $versionUpdate
      */
     public function visit(Visitor $visitor, Generator $generator, $versionUpdate)
     {

@@ -58,5 +58,11 @@ class Kernel extends BaseKernel
         $container->addCompilerPass(new Compiler\SchemaWorkersPass());
         $container->addCompilerPass(new Compiler\SchemaDomainIteratorsPass());
         $container->addCompilerPass(new Compiler\RichTextInputConvertersPass());
+
+        $container->addCompilerPass(new eZ\Platform\DependencyInjection\Compiler\FieldTypeProcessorPass());
+        $container->addCompilerPass(new eZ\Platform\DependencyInjection\Compiler\InputHandlerPass());
+        $container->addCompilerPass(new eZ\Platform\DependencyInjection\Compiler\InputParserPass());
+        // $container->addCompilerPass(new eZ\Platform\DependencyInjection\Compiler\OutputVisitorPass());
+        $container->addCompilerPass(new eZ\Platform\DependencyInjection\Compiler\ValueObjectVisitorPass());
     }
 }

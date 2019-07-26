@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\User;
 use App\eZ\Platform\API\Repository\Values\User\UserGroupRoleAssignment as APIUserGroupRoleAssignment;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\UserGroupRoleAssignment}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\UserGroupRoleAssignment}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\UserGroupRoleAssignment
+ * @see \App\eZ\Platform\API\Repository\Values\User\UserGroupRoleAssignment
  */
 class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
 {
@@ -31,7 +31,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the limitation of the role assignment.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation
+     * @return \App\eZ\Platform\API\Repository\Values\User\Limitation\RoleLimitation
      */
     public function getRoleLimitation()
     {
@@ -41,7 +41,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the role to which the user or user group is assigned to.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Role
+     * @return \App\eZ\Platform\API\Repository\Values\User\Role
      */
     public function getRole()
     {
@@ -51,7 +51,7 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
     /**
      * Returns the user group to which the role is assigned to.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserGroup
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserGroup
      */
     public function getUserGroup()
     {

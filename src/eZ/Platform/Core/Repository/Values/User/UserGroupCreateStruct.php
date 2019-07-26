@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\Content\Field;
 use App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct as APIUserGroupCreateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\UserGroupCreateStruct}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\UserGroupCreateStruct
+ * @see \App\eZ\Platform\API\Repository\Values\User\UserGroupCreateStruct
  */
 class UserGroupCreateStruct extends APIUserGroupCreateStruct
 {

@@ -12,12 +12,12 @@ namespace App\eZ\Platform\Core\Repository;
 use App\eZ\Platform\API\Repository\Repository as APIRepository;
 use App\eZ\Platform\API\Repository\Values\ValueObject;
 use App\eZ\Platform\API\Repository\Values\User\UserReference;
-use eZ\Publish\Core\REST\Common;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * REST Client Repository.
  *
- * @see \eZ\Publish\API\Repository\Repository
+ * @see \App\eZ\Platform\API\Repository\Repository
  */
 class Repository implements APIRepository
 {
@@ -67,14 +67,14 @@ class Repository implements APIRepository
     /**
      * Input parsing dispatcher.
      *
-     * @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher
+     * @var \App\eZ\Platform\Core\Repository\Input\Dispatcher
      */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /** @var \App\eZ\Platform\SPI\FieldType\FieldType[] */
@@ -83,15 +83,15 @@ class Repository implements APIRepository
     /**
      * Instantiates the REST Client repository.
      *
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      * @param \eZ\Publish\SPI\FieldType\FieldType[] $fieldTypes
      */
-    public function __construct(HttpClient $client, Common\Input\Dispatcher $inputDispatcher, Common\Output\Visitor $outputVisitor, Common\RequestParser $requestParser, array $fieldTypes)
+    public function __construct(HttpClientInterface $ezpRestClient, Input\Dispatcher $inputDispatcher, Output\Visitor $outputVisitor, RequestParser $requestParser, array $fieldTypes)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -103,7 +103,7 @@ class Repository implements APIRepository
      *
      * Get current user.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\User
+     * @return \App\eZ\Platform\API\Repository\Values\User\User
      */
     public function getCurrentUser()
     {
@@ -115,7 +115,7 @@ class Repository implements APIRepository
      *
      * Get current user.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\UserReference
+     * @return \App\eZ\Platform\API\Repository\Values\User\UserReference
      */
     public function getCurrentUserReference()
     {
@@ -127,7 +127,7 @@ class Repository implements APIRepository
      *
      * Sets the current user to the given $user.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\UserReference $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserReference $user
      *
      * @return void
      */
@@ -143,9 +143,9 @@ class Repository implements APIRepository
      *
      * @param string $module
      * @param string $function
-     * @param \eZ\Publish\API\Repository\Values\User\UserReference $user
+     * @param \App\eZ\Platform\API\Repository\Values\User\UserReference $user
      *
-     * @return bool|\eZ\Publish\API\Repository\Values\User\Limitation[] if limitations are on this function an array of limitations is returned
+     * @return bool|\App\eZ\Platform\API\Repository\Values\User\Limitation[] if limitations are on this function an array of limitations is returned
      */
     public function hasAccess($module, $function, UserReference $user = null)
     {
@@ -158,12 +158,12 @@ class Repository implements APIRepository
      * Indicates if the current user is allowed to perform an action given by the function on the given
      * objects.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
      *
      * @param string $module The module, aka controller identifier to check permissions on
      * @param string $function The function, aka the controller action to check permissions on
-     * @param \eZ\Publish\API\Repository\Values\ValueObject $object The object to check if the user has access to
+     * @param \App\eZ\Platform\API\Repository\Values\ValueObject $object The object to check if the user has access to
      * @param mixed $targets The location, parent or "assignment" value object, or an array of the same
      *
      * @return bool
@@ -178,7 +178,7 @@ class Repository implements APIRepository
      *
      * Get service object to perform operations on Content objects and it's aggregate members.
      *
-     * @return \eZ\Publish\API\Repository\ContentService
+     * @return \App\eZ\Platform\API\Repository\ContentService
      */
     public function getContentService()
     {
@@ -200,7 +200,7 @@ class Repository implements APIRepository
      *
      * Get service object to perform operations on Content language objects
      *
-     * @return \eZ\Publish\API\Repository\LanguageService
+     * @return \App\eZ\Platform\API\Repository\LanguageService
      */
     public function getContentLanguageService()
     {
@@ -224,7 +224,7 @@ class Repository implements APIRepository
      * Get service object to perform operations on Content Type objects and it's aggregate members.
      * ( Group, Field & FieldCategory )
      *
-     * @return \eZ\Publish\API\Repository\ContentTypeService
+     * @return \App\eZ\Platform\API\Repository\ContentTypeService
      */
     public function getContentTypeService()
     {
@@ -245,7 +245,7 @@ class Repository implements APIRepository
      *
      * Get service object to perform operations on Location objects and subtrees
      *
-     * @return \eZ\Publish\API\Repository\LocationService
+     * @return \App\eZ\Platform\API\Repository\LocationService
      */
     public function getLocationService()
     {
@@ -267,7 +267,7 @@ class Repository implements APIRepository
      * Trash service allows to perform operations related to location trash
      * (trash/untrash, load/list from trash...)
      *
-     * @return \eZ\Publish\API\Repository\TrashService
+     * @return \App\eZ\Platform\API\Repository\TrashService
      */
     public function getTrashService()
     {
@@ -289,7 +289,7 @@ class Repository implements APIRepository
      *
      * Get Section service that lets you manipulate section objects
      *
-     * @return \eZ\Publish\API\Repository\SectionService
+     * @return \App\eZ\Platform\API\Repository\SectionService
      */
     public function getSectionService()
     {
@@ -310,7 +310,7 @@ class Repository implements APIRepository
      *
      * Get search service that lets you find content objects
      *
-     * @return \eZ\Publish\API\Repository\SearchService
+     * @return \App\eZ\Platform\API\Repository\SearchService
      */
     public function getSearchService()
     {
@@ -322,7 +322,7 @@ class Repository implements APIRepository
      *
      * Get service object to perform operations on Users and UserGroup
      *
-     * @return \eZ\Publish\API\Repository\UserService
+     * @return \App\eZ\Platform\API\Repository\UserService
      */
     public function getUserService()
     {
@@ -343,7 +343,7 @@ class Repository implements APIRepository
      *
      * Get service object to perform operations on binary files
      *
-     * @return \eZ\Publish\API\Repository\IOService
+     * @return \App\eZ\Platform\API\Repository\IOService
      */
     public function getIOService()
     {
@@ -362,7 +362,7 @@ class Repository implements APIRepository
     /**
      * Get RoleService.
      *
-     * @return \eZ\Publish\API\Repository\RoleService
+     * @return \App\eZ\Platform\API\Repository\RoleService
      */
     public function getRoleService()
     {
@@ -382,7 +382,7 @@ class Repository implements APIRepository
     /**
      * Get URLAliasService.
      *
-     * @return \eZ\Publish\API\Repository\URLAliasService
+     * @return \App\eZ\Platform\API\Repository\URLAliasService
      */
     public function getURLAliasService()
     {
@@ -401,7 +401,7 @@ class Repository implements APIRepository
     /**
      * Get URLWildcardService.
      *
-     * @return \eZ\Publish\API\Repository\URLWildcardService
+     * @return \App\eZ\Platform\API\Repository\URLWildcardService
      */
     public function getURLWildcardService()
     {
@@ -411,7 +411,7 @@ class Repository implements APIRepository
     /**
      * Get ObjectStateService.
      *
-     * @return \eZ\Publish\API\Repository\ObjectStateService
+     * @return \App\eZ\Platform\API\Repository\ObjectStateService
      */
     public function getObjectStateService()
     {
@@ -430,7 +430,7 @@ class Repository implements APIRepository
     /**
      * Get FieldTypeService.
      *
-     * @return \eZ\Publish\API\Repository\FieldTypeService
+     * @return \App\eZ\Platform\API\Repository\FieldTypeService
      */
     public function getFieldTypeService()
     {
@@ -444,7 +444,7 @@ class Repository implements APIRepository
     /**
      * Get PermissionResolver.
      *
-     * @return \eZ\Publish\API\Repository\PermissionResolver
+     * @return \App\eZ\Platform\API\Repository\PermissionResolver
      */
     public function getPermissionResolver()
     {
@@ -454,7 +454,7 @@ class Repository implements APIRepository
     /**
      * Get URLService.
      *
-     * @return \eZ\Publish\API\Repository\URLService
+     * @return \App\eZ\Platform\API\Repository\URLService
      */
     public function getURLService()
     {
@@ -464,7 +464,7 @@ class Repository implements APIRepository
     /**
      * Get BookmarkService.
      *
-     * @return \eZ\Publish\API\Repository\BookmarkService
+     * @return \App\eZ\Platform\API\Repository\BookmarkService
      */
     public function getBookmarkService()
     {
@@ -474,7 +474,7 @@ class Repository implements APIRepository
     /**
      * Get UserPreferenceService.
      *
-     * @return \eZ\Publish\API\Repository\UserPreferenceService
+     * @return \App\eZ\Platform\API\Repository\UserPreferenceService
      */
     public function getUserPreferenceService()
     {
@@ -484,7 +484,7 @@ class Repository implements APIRepository
     /**
      * Get NotificationService
      *
-     * @return \eZ\Publish\API\Repository\NotificationService
+     * @return \App\eZ\Platform\API\Repository\NotificationService
      */
     public function getNotificationService()
     {

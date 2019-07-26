@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\User;
 use App\eZ\Platform\API\Repository\Values;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\RoleAssignment}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\RoleAssignment}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\RoleAssignment
+ * @see \App\eZ\Platform\API\Repository\Values\User\RoleAssignment
  */
 class RoleAssignment extends Values\User\RoleAssignment
 {
@@ -36,7 +36,7 @@ class RoleAssignment extends Values\User\RoleAssignment
     /**
      * Returns the limitation of the user role assignment.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation
+     * @return \App\eZ\Platform\API\Repository\Values\User\Limitation\RoleLimitation
      */
     public function getRoleLimitation()
     {
@@ -46,7 +46,7 @@ class RoleAssignment extends Values\User\RoleAssignment
     /**
      * Returns the role to which the user is assigned to.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Role
+     * @return \App\eZ\Platform\API\Repository\Values\User\Role
      */
     public function getRole()
     {

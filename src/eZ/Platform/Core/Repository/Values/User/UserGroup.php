@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
 use App\eZ\Platform\API\Repository\Values\User\UserGroup as APIUserGroup;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\UserGroup}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\UserGroup}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\UserGroup
+ * @see \App\eZ\Platform\API\Repository\Values\User\UserGroup
  */
 class UserGroup extends APIUserGroup
 {
@@ -26,7 +26,7 @@ class UserGroup extends APIUserGroup
     /**
      * Returns the VersionInfo for this version.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\VersionInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\VersionInfo
      */
     public function getVersionInfo()
     {
@@ -53,7 +53,7 @@ class UserGroup extends APIUserGroup
     /**
      * This method returns the complete fields collection.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field[]
      */
     public function getFields()
     {
@@ -67,7 +67,7 @@ class UserGroup extends APIUserGroup
      *
      * @param string $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field[] With field identifier as keys
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field[] With field identifier as keys
      */
     public function getFieldsByLanguage($languageCode = null)
     {
@@ -82,7 +82,7 @@ class UserGroup extends APIUserGroup
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
      */
     public function getField($fieldDefIdentifier, $languageCode = null)
     {

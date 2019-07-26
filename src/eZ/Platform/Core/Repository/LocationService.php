@@ -14,10 +14,10 @@ use App\eZ\Platform\API\Repository\Values\Content\LocationCreateStruct;
 use App\eZ\Platform\API\Repository\Values\Content\ContentInfo;
 use App\eZ\Platform\API\Repository\Values\Content\Location;
 use App\eZ\Platform\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Message;
 use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
 
 /**
@@ -30,24 +30,24 @@ class LocationService implements APILocationService, Sessionable
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -73,9 +73,9 @@ class LocationService implements APILocationService, Sessionable
      * Instantiates a new location create class.
      *
      * @param mixed $parentLocationId the parent under which the new location should be created
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType|null $contentType
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\ContentType|null $contentType
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\LocationCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\Content\LocationCreateStruct
      */
     public function newLocationCreateStruct($parentLocationId, ContentType $contentType = null)
     {
@@ -93,15 +93,15 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Creates the new $location in the content repository for the given content.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create this location
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException  if the content is already below the specified parent
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create this location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException  if the content is already below the specified parent
      *                                        or the parent is a sub location of the location the content
      *                                        or if set the remoteId exists already
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo
+     * @param \App\eZ\Platform\API\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location the newly created Location
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location the newly created Location
      */
     public function createLocation(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct)
     {
@@ -126,9 +126,7 @@ class LocationService implements APILocationService, Sessionable
         $response = $this->client->request(
             'GET',
             $locationId,
-            new Message(
-                array('Accept' => $this->outputVisitor->getMediaType('Location'))
-            )
+            ['headers' => ['Accept' => $this->outputVisitor->getMediaType('Location')]]
         );
 
         return $this->inputDispatcher->parse($response);
@@ -144,7 +142,7 @@ class LocationService implements APILocationService, Sessionable
         $response = $this->client->request(
             'GET',
             $this->requestParser->generate('locationsByIds', ['locations' => $locationIds]),
-            new Message(['Accept' => $this->outputVisitor->getMediaType('LocationList')])
+            ['headers' => ['Accept' => $this->outputVisitor->getMediaType('LocationList')]]
         );
 
         return $this->inputDispatcher->parse($response);
@@ -158,9 +156,7 @@ class LocationService implements APILocationService, Sessionable
         $response = $this->client->request(
             'GET',
             $this->requestParser->generate('locationByRemote', array('location' => $remoteId)),
-            new Message(
-                array('Accept' => $this->outputVisitor->getMediaType('LocationList'))
-            )
+            ['headers' => ['Accept' => $this->outputVisitor->getMediaType('LocationList')]]
         );
 
         return reset($this->inputDispatcher->parse($response));
@@ -169,7 +165,7 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Instantiates a new location update class.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\LocationUpdateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\Content\LocationUpdateStruct
      */
     public function newLocationUpdateStruct()
     {
@@ -179,24 +175,26 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Updates $location in the content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to update this location
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException   if if set the remoteId exists already
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to update this location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException   if if set the remoteId exists already
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationUpdateStruct $locationUpdateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\LocationUpdateStruct $locationUpdateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location the updated Location
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location the updated Location
      */
     public function updateLocation(Location $location, LocationUpdateStruct $locationUpdateStruct)
     {
-        $inputMessage = $this->outputVisitor->visit($locationUpdateStruct);
-        $inputMessage->headers['Accept'] = $this->outputVisitor->getMediaType('Location');
-        $inputMessage->headers['X-HTTP-Method-Override'] = 'PATCH';
-
         $result = $this->client->request(
             'POST',
             $location->id,
-            $inputMessage
+            [
+                'body' => $this->outputVisitor->visit($locationUpdateStruct)->getContent(),
+                'headers' => [
+                    'Accept' => $this->outputVisitor->getMediaType('Location'),
+                    'X-HTTP-Method-Override' => 'PATCH',
+                ]
+            ]
         );
 
         return $this->inputDispatcher->parse($result);
@@ -208,23 +206,21 @@ class LocationService implements APILocationService, Sessionable
      * If a $rootLocation is given, only locations that belong to this location are returned.
      * The location list is also filtered by permissions on reading locations.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException if there is no published version yet
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\BadStateException if there is no published version yet
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $rootLocation
+     * @param \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $rootLocation
      * @param string[]|null $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location[]
      */
     public function loadLocations(ContentInfo $contentInfo, Location $rootLocation = null, array $prioritizedLanguages = null)
     {
-        $values = $this->requestParser->parse('object', $contentInfo->id);
+        $values = $this->requestParser->parse($contentInfo->id);
         $response = $this->client->request(
             'GET',
             $this->requestParser->generate('objectLocations', array('object' => $values['object'])),
-            new Message(
-                array('Accept' => $this->outputVisitor->getMediaType('LocationList'))
-            )
+            ['headers' => ['Accept' => $this->outputVisitor->getMediaType('LocationList')]]
         );
 
         return $this->inputDispatcher->parse($response);
@@ -233,22 +229,20 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Loads children which are readable by the current user of a location object sorted by sortField and sortOrder.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      * @param int $offset the start offset for paging
      * @param int $limit the number of locations returned
      * @param string[]|null $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\LocationList
+     * @return \App\eZ\Platform\API\Repository\Values\Content\LocationList
      */
     public function loadLocationChildren(Location $location, $offset = 0, $limit = 25, array $prioritizedLanguages = null)
     {
-        $values = $this->requestParser->parse('location', $location->id);
+        $values = $this->requestParser->parse($location->id);
         $response = $this->client->request(
             'GET',
             $this->requestParser->generate('locationChildren', array('location' => $values['location'])),
-            new Message(
-                array('Accept' => $this->outputVisitor->getMediaType('LocationList'))
-            )
+            ['headers' => ['Accept' => $this->outputVisitor->getMediaType('LocationList')]]
         );
 
         return $this->inputDispatcher->parse($response);
@@ -257,10 +251,10 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Load parent Locations for Content Draft.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\VersionInfo $versionInfo
+     * @param \App\eZ\Platform\API\Repository\Values\Content\VersionInfo $versionInfo
      * @param string[]|null $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location[] List of parent Locations
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location[] List of parent Locations
      */
     public function loadParentLocationsForDraftContent(VersionInfo $versionInfo, array $prioritizedLanguages = null)
     {
@@ -270,7 +264,7 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Returns the number of children which are readable by the current user of a location object.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
      * @return int
      */
@@ -282,10 +276,10 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Swaps the contents hold by the $location1 and $location2.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to swap content
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to swap content
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location1
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location2
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location1
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location2
      */
     public function swapLocation(Location $location1, Location $location2)
     {
@@ -295,11 +289,11 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Hides the $location and marks invisible all descendants of $location.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to hide this location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to hide this location
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location $location, with updated hidden value
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location $location, with updated hidden value
      */
     public function hideLocation(Location $location)
     {
@@ -312,11 +306,11 @@ class LocationService implements APILocationService, Sessionable
      * This method and marks visible all descendants of $locations
      * until a hidden location is found.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to unhide this location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to unhide this location
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location $location, with updated hidden value
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location $location, with updated hidden value
      */
     public function unhideLocation(Location $location)
     {
@@ -326,9 +320,9 @@ class LocationService implements APILocationService, Sessionable
     /**
      * Deletes $location and all its descendants.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this location or a descendant
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user is not allowed to delete this location or a descendant
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
      */
     public function deleteLocation(Location $location)
     {
@@ -340,13 +334,13 @@ class LocationService implements APILocationService, Sessionable
      *
      * Only the items on which the user has read access are copied.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed copy the subtree to the given parent location
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException  if the target location is a sub location of the given location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed copy the subtree to the given parent location
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException  if the target location is a sub location of the given location
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $subtree - the subtree denoted by the location to copy
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $targetParentLocation - the target parent location for the copy operation
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $subtree - the subtree denoted by the location to copy
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $targetParentLocation - the target parent location for the copy operation
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location The newly created location of the copied subtree
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location The newly created location of the copied subtree
      *
      * @todo enhancement - this method should return a result structure containing the new location and a list
      *       of locations which are not copied due to permission denials.
@@ -362,10 +356,10 @@ class LocationService implements APILocationService, Sessionable
      * If a user has the permission to move the location to a target location
      * he can do it regardless of an existing descendant on which the user has no permission.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to move this location to the target
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to move this location to the target
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $newParentLocation
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $location
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Location $newParentLocation
      */
     public function moveSubtree(Location $location, Location $newParentLocation)
     {
@@ -381,7 +375,7 @@ class LocationService implements APILocationService, Sessionable
      * @param int $limit
      * @param int $offset
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Location[]
      *
      * @throws \Exception
      */

@@ -10,7 +10,7 @@
 namespace App\eZ\Platform\Core\Repository\HttpClient;
 
 use App\eZ\Platform\Core\Repository\HttpClient;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\Message;
 
 /**
  * Simple PHP stream based HTTP client.
@@ -66,9 +66,9 @@ class Stream implements HttpClient
      *
      * @param string $method
      * @param string $path
-     * @param \eZ\Publish\Core\REST\Common\Message $message
+     * @param \App\eZ\Platform\Core\Repository\Message $message
      *
-     * @return \eZ\Publish\Core\REST\Common\Message
+     * @return \App\eZ\Platform\Core\Repository\Message
      */
     public function request($method, $path, Message $message = null)
     {

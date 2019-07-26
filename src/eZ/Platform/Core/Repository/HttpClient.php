@@ -9,7 +9,7 @@
 
 namespace App\eZ\Platform\Core\Repository;
 
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\Message;
 
 /**
  * Interface for Http Client implementations.

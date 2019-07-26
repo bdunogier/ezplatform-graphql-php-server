@@ -4,6 +4,11 @@ services:
         autowire: true
         public: false
 
+    App\Schema\Domain\Content\Worker\:
+        resource: '../../src/Schema/Domain/Content/Worker'
+        tags:
+            - {name: 'ezplatform_graphql.domain_schema_worker'}
+
     _instanceof:
         App\Schema\Domain\Content\Worker\BaseWorker:
             calls:
@@ -19,30 +24,28 @@ services:
 
     App\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent: ~
 
-    App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper:
-        alias: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
-
     App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper: ~
 
+    App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper'
+
     App\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables:
-        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
         decoration_priority: -5
         arguments:
             $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables.inner'
 
     App\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper:
-        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
         arguments:
             $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper.inner'
             $typesMap: '%ezplatform_graphql.schema.content.mapping.field_definition_type%'
 
     App\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper:
-        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
         arguments:
-            $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
             $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper.inner'
 
     App\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper:
-        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decorates: App\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
         arguments:
             $innerMapper: '@App\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper.inner'

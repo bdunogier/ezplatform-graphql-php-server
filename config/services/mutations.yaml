@@ -1,0 +1,156 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    public: false
+
+  App\eZ\Platform\Core\FieldType\RichText\Converter\:
+    resource: ../../src/eZ/Platform/Core/FieldType/RichText/Converter/*
+
+  App\GraphQL\Resolver\DomainContentMutationResolver:
+    tags:
+      - { name: overblog_graphql.mutation, alias: "CreateDomainContent", method: "createDomainContent" }
+      - { name: overblog_graphql.mutation, alias: "DeleteDomainContent", method: "deleteDomainContent" }
+      - { name: overblog_graphql.mutation, alias: "UpdateDomainContent", method: "updateDomainContent" }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Author:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezauthor']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezauthor', inputType: '[AuthorInput]' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\BinaryFile:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezbinaryfile', 'App\GraphQL\Mutation\InputHandler\FieldType\BinaryFile']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezbinaryfile', inputType: BinaryFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Boolean:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezboolean']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezboolean', inputType: Boolean }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Country:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezcountry']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezcountry', inputType: '[String]' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Date:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezcountry', 'App\GraphQL\Mutation\InputHandler\FieldType\Date']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdate', inputType: DateFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\DateAndTime:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezdatetime', 'App\GraphQL\Mutation\InputHandler\FieldType\Date']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdatetime', inputType: DateFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Float:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezfloat']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezfloat', inputType: Float }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Email:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezemail']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezemail', inputType: String }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Image:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezimage', 'App\GraphQL\Mutation\InputHandler\FieldType\Image']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezimage', inputType: ImageFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Integer:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezinteger']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezinteger', inputType: Int }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\ISBN:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezisbn']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezisbn', inputType: String }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Keyword:
+    class: 'App\GraphQL\Mutation\InputHandler\FieldType\FromHash'
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezkeyword']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezkeyword', inputType: '[String]' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\MapLocation:
+    class: 'App\GraphQL\Mutation\InputHandler\FieldType\FromHash'
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezgmaplocation']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezgmaplocation', inputType: 'MapLocationFieldInput' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Media:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezmedia', 'App\GraphQL\Mutation\InputHandler\FieldType\Media']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezmedia', inputType: MediaFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Relation:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezobjectrelation', 'App\GraphQL\Mutation\InputHandler\FieldType\Relation']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelation', inputType: Int }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\RelationList:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezfloat', 'App\GraphQL\Mutation\InputHandler\FieldType\RelationList']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelationlist', inputType: '[Int]' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\RichText:
+    arguments:
+      $inputConverters:
+        html: '@App\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter'
+        markdown: '@App\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter'
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezrichtext', inputType: RichTextFieldInput }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter:
+    #arguments:
+    #  $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+    tags:
+      - { name: ezplatform_graphql.richtext_input_converter, format: html }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter:
+    #arguments:
+    #  $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+    tags:
+      - { name: ezplatform_graphql.richtext_input_converter, format: markdown }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Selection:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezselection']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezselection', inputType: '[Int]' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\TextBlock:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['eztext']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'eztext', inputType: 'String' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\TextLine:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezstring']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezstring', inputType: 'String' }
+
+  App\GraphQL\Mutation\InputHandler\FieldType\Url:
+    factory: ['@App\DependencyInjection\Factory\InputHandlerFactory', 'createFieldTypeService']
+    arguments: ['ezurl']
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezurl', inputType: UrlFieldInput }

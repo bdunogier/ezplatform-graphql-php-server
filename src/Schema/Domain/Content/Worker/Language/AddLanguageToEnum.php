@@ -6,7 +6,7 @@
  */
 namespace App\Schema\Domain\Content\Worker\Language;
 
-use eZ\Publish\API\Repository\Values\Content\Language;
+use App\eZ\Platform\API\Repository\Values\Content\Language;
 use App\Schema\Builder;
 use App\Schema\Initializer;
 use App\Schema\Worker;

@@ -10,7 +10,7 @@
 namespace App\eZ\Platform\Core\Repository\HttpClient\Authentication;
 
 use App\eZ\Platform\Core\Repository\HttpClient;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\Message;
 
 /**
  * Interface for Http Client implementations.
@@ -41,7 +41,7 @@ class BasicAuth implements HttpClient
     /**
      * Creates a new Basic Auth HTTP client.
      *
-     * @param \eZ\Publish\Core\Repository\HttpClient $innerClient
+     * @param \App\eZ\Platform\Core\Repository\HttpClient $innerClient
      * @param string $username
      * @param string $password
      */
@@ -61,9 +61,9 @@ class BasicAuth implements HttpClient
      *
      * @param string $method
      * @param string $path
-     * @param \eZ\Publish\Core\REST\Common\Message $message
+     * @param \App\eZ\Platform\Core\Repository\Message $message
      *
-     * @return \eZ\Publish\Core\REST\Common\Message
+     * @return \App\eZ\Platform\Core\Repository\Message
      */
     public function request($method, $path, Message $message = null)
     {

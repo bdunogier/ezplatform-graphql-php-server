@@ -9,8 +9,8 @@
 namespace App\eZ\Platform\API\Repository\Values\ContentType;
 
 use App\eZ\Platform\API\Repository\Values\ValueObject;
-use eZ\Publish\SPI\Repository\Values\MultiLanguageName;
-use eZ\Publish\SPI\Repository\Values\MultiLanguageDescription;
+use App\eZ\Platform\API\Repository\Values\MultiLanguageDescription;
+use App\eZ\Platform\API\Repository\Values\MultiLanguageName;
 
 /**
  * This class represents a content type group value.

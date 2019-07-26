@@ -16,9 +16,9 @@ use App\eZ\Platform\API\Repository\Values\Content\VersionInfo as APIVersionInfo;
  * This class holds version information data. It also contains the corresponding {@link Content} to
  * which the version belongs to.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\VersionInfo
+ * @see \App\eZ\Platform\API\Repository\Values\Content\VersionInfo
  *
- * @property-read \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
  * @property-read mixed $id the internal id of the version
  * @property-read int $versionNo the version number of this version (which only increments in scope of a single Content object)
  * @property-read \DateTime $modificationDate the last modified date of this version

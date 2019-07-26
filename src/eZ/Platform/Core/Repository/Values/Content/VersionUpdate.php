@@ -11,8 +11,8 @@ use App\eZ\Platform\API\Repository\Values\ValueObject;
  *
  * Aggregate of a ContentUpdateStruct and the updated ContentType.
  *
- * @property-read \eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
- * @property-read \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+ * @property-read \App\eZ\Platform\API\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
+ * @property-read \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $contentType
  * @property-read string $url
  */
 class VersionUpdate extends ValueObject

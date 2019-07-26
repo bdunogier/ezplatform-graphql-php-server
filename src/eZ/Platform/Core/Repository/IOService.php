@@ -12,9 +12,9 @@ namespace App\eZ\Platform\Core\Repository;
 use App\eZ\Platform\API\Repository\IOService as APIIOService;
 use eZ\Publish\Core\IO\Values\BinaryFile;
 use eZ\Publish\Core\IO\Values\BinaryFileCreateStruct;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\RequestParser;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 
 /**
  * Service used to handle io operations.
@@ -24,24 +24,24 @@ class IOService implements APIIOService, Sessionable
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -66,7 +66,7 @@ class IOService implements APIIOService, Sessionable
     /**
      * Creates a BinaryFileCreateStruct object from the uploaded file $uploadedFile.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException When given an invalid uploaded file
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException When given an invalid uploaded file
      *
      * @param array $uploadedFile The $_POST hash of an uploaded file
      *
@@ -80,7 +80,7 @@ class IOService implements APIIOService, Sessionable
     /**
      * Creates a BinaryFileCreateStruct object from $localFile.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException When given a non existing / unreadable file
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException When given a non existing / unreadable file
      *
      * @param string $localFile Path to local file
      *
@@ -116,7 +116,7 @@ class IOService implements APIIOService, Sessionable
     /**
      * Loads the binary file with $id.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException
      *
      * @param string $binaryFileid
      *

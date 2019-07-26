@@ -9,8 +9,8 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
 use App\eZ\Platform\Core\Repository\Values;
 use App\eZ\Platform\API\Repository\ContentService;
 
@@ -27,7 +27,7 @@ class Relation extends BaseParser
     protected $contentService;
 
     /**
-     * @param \eZ\Publish\API\Repository\ContentService $contentService
+     * @param \App\eZ\Platform\API\Repository\ContentService $contentService
      */
     public function __construct(ContentService $contentService)
     {
@@ -38,9 +38,9 @@ class Relation extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @return \eZ\Publish\API\Repository\Values\Relation\Version
+     * @return \App\eZ\Platform\API\Repository\Values\Relation\Version
      *
      * @todo Error handling
      * @todo Should the related ContentInfo structs really be loaded here or do

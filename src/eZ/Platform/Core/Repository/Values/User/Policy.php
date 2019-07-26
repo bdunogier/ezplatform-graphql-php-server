@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\User;
 use App\eZ\Platform\API\Repository\Values\User\Policy as APIPolicy;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\Policy}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\Policy}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\Policy
+ * @see \App\eZ\Platform\API\Repository\Values\User\Policy
  */
 class Policy extends APIPolicy
 {
@@ -23,7 +23,7 @@ class Policy extends APIPolicy
     protected $limitations = array();
 
     /**
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation[]
+     * @return \App\eZ\Platform\API\Repository\Values\User\Limitation[]
      */
     public function getLimitations()
     {

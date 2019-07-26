@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Exceptions;
 use App\eZ\Platform\API\Repository\Exceptions\ContentValidationException as APIContentValidationException;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Exceptions\ContentValidationException}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\Exceptions\ContentValidationException
+ * @see \App\eZ\Platform\API\Repository\Exceptions\ContentValidationException
  */
 class ContentValidationException extends APIContentValidationException
 {

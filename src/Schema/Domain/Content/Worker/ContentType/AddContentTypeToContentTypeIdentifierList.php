@@ -11,7 +11,7 @@ use App\Schema\Initializer;
 use App\Schema\Worker;
 use App\Schema\Builder\Input;
 use App\Schema\Builder;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
 
 /**
  * Adds a content type to the content type identifiers list (ContentTypeIdentifier).

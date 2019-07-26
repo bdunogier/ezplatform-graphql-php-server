@@ -9,11 +9,11 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
 use App\eZ\Platform\API\Repository\ContentService;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\FieldTypeParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\FieldTypeParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
 use App\eZ\Platform\Core\Repository\Values;
 use App\eZ\Platform\API\Repository\Values\Content\Field;
 
@@ -32,20 +32,20 @@ class Content extends BaseParser
      */
     protected $versionInfoParser;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /** @var \App\eZ\Platform\API\Repository\ContentService */
     protected $contentService;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\FieldTypeParser */
+    /** @var \App\eZ\Platform\Core\Repository\Input\FieldTypeParser */
     protected $fieldTypeParser;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
-     * @param \eZ\Publish\API\Repository\ContentService $contentService
-     * @param \eZ\Publish\Core\Repository\Input\Parser\VersionInfo $versionInfoParser
-     * @param \eZ\Publish\Core\REST\Common\Input\FieldTypeParser $fieldTypeParser
+     * @param \App\eZ\Platform\Core\Repository\Input\ParserTools $parserTools
+     * @param \App\eZ\Platform\API\Repository\ContentService $contentService
+     * @param \App\eZ\Platform\Core\Repository\Input\Parser\VersionInfo $versionInfoParser
+     * @param \App\eZ\Platform\Core\Repository\Input\FieldTypeParser $fieldTypeParser
      */
     public function __construct(ParserTools $parserTools, ContentService $contentService, VersionInfo $versionInfoParser, FieldTypeParser $fieldTypeParser)
     {
@@ -59,11 +59,11 @@ class Content extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @todo Error handling
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Content
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {
@@ -73,7 +73,7 @@ class Content extends BaseParser
         );
         $fields = $this->parseFields(
             $data['CurrentVersion']['Version']['Fields'],
-            str_replace('/api/ezp/v2/content/objects/', '', $versionInfo->contentInfoId)
+            '/api/ezp/v2/content/objects/' . $versionInfo->contentInfoId
         );
 
         return new Values\Content\Content(
@@ -91,7 +91,7 @@ class Content extends BaseParser
      * @param array $rawFieldsData
      * @param string $contentId
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Field[]
      */
     protected function parseFields(array $rawFieldsData, $contentId)
     {

@@ -13,10 +13,10 @@ use App\eZ\Platform\API\Repository\Values\User\Limitation;
 use App\eZ\Platform\API\Repository\Values\User\PolicyUpdateStruct as APIPolicyUpdateStruct;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\PolicyUpdateStruct}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\PolicyUpdateStruct}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\PolicyUpdateStruct
+ * @see \App\eZ\Platform\API\Repository\Values\User\PolicyUpdateStruct
  */
 class PolicyUpdateStruct extends APIPolicyUpdateStruct
 {
@@ -26,7 +26,7 @@ class PolicyUpdateStruct extends APIPolicyUpdateStruct
     /**
      * Returns list of limitations added to policy.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation[]
+     * @return \App\eZ\Platform\API\Repository\Values\User\Limitation[]
      */
     public function getLimitations()
     {
@@ -37,7 +37,7 @@ class PolicyUpdateStruct extends APIPolicyUpdateStruct
      * Adds a limitation to the policy - if a Limitation exists with the same identifier
      * the existing limitation is replaced.
      *
-     * @param \eZ\Publish\API\Repository\Values\User\Limitation $limitation
+     * @param \App\eZ\Platform\API\Repository\Values\User\Limitation $limitation
      */
     public function addLimitation(Limitation $limitation)
     {

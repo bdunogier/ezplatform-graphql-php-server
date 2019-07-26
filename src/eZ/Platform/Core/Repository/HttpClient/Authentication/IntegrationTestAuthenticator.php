@@ -11,7 +11,7 @@ namespace App\eZ\Platform\Core\Repository\HttpClient\Authentication;
 
 use App\eZ\Platform\Core\Repository\HttpClient;
 use App\eZ\Platform\Core\Repository\Sessionable;
-use eZ\Publish\Core\REST\Common\Message;
+use App\eZ\Platform\Core\Repository\Message;
 
 /**
  * Authenticator used in integration tests.
@@ -44,7 +44,7 @@ class IntegrationTestAuthenticator implements HttpClient, Sessionable
     /**
      * Creates a new Integration Test Authenticator.
      *
-     * @param \eZ\Publish\Core\Repository\HttpClient $innerClient
+     * @param \App\eZ\Platform\Core\Repository\HttpClient $innerClient
      * @param mixed $userId
      */
     public function __construct(HttpClient $innerClient, $userId = 14)
@@ -62,9 +62,9 @@ class IntegrationTestAuthenticator implements HttpClient, Sessionable
      *
      * @param string $method
      * @param string $path
-     * @param \eZ\Publish\Core\REST\Common\Message $message
+     * @param \App\eZ\Platform\Core\Repository\Message $message
      *
-     * @return \eZ\Publish\Core\REST\Common\Message
+     * @return \App\eZ\Platform\Core\Repository\Message
      */
     public function request($method, $path, Message $message = null)
     {

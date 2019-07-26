@@ -38,7 +38,7 @@ class ContentTypeGroupRefList
     protected $contentTypeService;
 
     /**
-     * @param \eZ\Publish\Core\Repository\ContentTypeService $contentTypeService
+     * @param \App\eZ\Platform\Core\Repository\ContentTypeService $contentTypeService
      * @param string $listReference
      * @param string[] $contentTypeGroupReferences
      */
@@ -52,7 +52,7 @@ class ContentTypeGroupRefList
     /**
      * Fetches and returns the ContentTypeGroups contained in the list.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroup[]
      */
     public function getContentTypeGroups()
     {

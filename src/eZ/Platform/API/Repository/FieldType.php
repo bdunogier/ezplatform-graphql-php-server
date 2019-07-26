@@ -9,7 +9,7 @@
 namespace App\eZ\Platform\API\Repository;
 
 use App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\SPI\FieldType\Value;
+use App\eZ\Platform\Core\FieldType\Value;
 
 /**
  * Interface that FieldTypes expose to the public API.
@@ -226,8 +226,8 @@ interface FieldType
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \eZ\Platform\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
-     * @param \eZ\Publish\SPI\FieldType\Value $value The field value for which an action is performed
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \App\eZ\Platform\Core\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
      */

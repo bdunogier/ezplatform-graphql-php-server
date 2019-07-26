@@ -9,18 +9,15 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
 use App\eZ\Platform\Core\Repository\Values;
 use App\eZ\Platform\API\Repository\ContentTypeService;
 
-/**
- * Parser for ContentTypeGroupRefList.
- */
 class ContentTypeGroupRefList extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /** @var \App\eZ\Platform\API\Repository\ContentTypeService */
@@ -28,7 +25,7 @@ class ContentTypeGroupRefList extends BaseParser
 
     /**
      * @param ParserTools $parserTools
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \App\eZ\Platform\API\Repository\ContentTypeService $contentTypeService
      */
     public function __construct(ParserTools $parserTools, ContentTypeService $contentTypeService)
     {
@@ -40,9 +37,9 @@ class ContentTypeGroupRefList extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @return \eZ\Publish\Core\Repository\Values\ContentTypeGroupRefList
+     * @return \App\eZ\Platform\Core\Repository\Values\ContentTypeGroupRefList
      */
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {

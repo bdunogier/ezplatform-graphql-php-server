@@ -7,8 +7,8 @@
 namespace App\Schema\Domain\Content\Mapper\FieldDefinition;
 
 use App\Schema\Domain\Content\NameHelper;
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use App\eZ\Platform\API\Repository\ContentTypeService;
+use App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition;
 
 class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
 {

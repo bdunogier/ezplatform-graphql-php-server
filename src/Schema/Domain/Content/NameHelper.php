@@ -6,9 +6,9 @@
  */
 namespace App\Schema\Domain\Content;
 
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use App\eZ\Platform\API\Repository\Values\ContentType\ContentType;
+use App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroup;
+use App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 class NameHelper

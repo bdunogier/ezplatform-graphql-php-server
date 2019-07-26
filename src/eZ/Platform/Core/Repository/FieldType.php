@@ -281,7 +281,7 @@ class FieldType implements APIFieldType
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
      * @param \eZ\Publish\SPI\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]

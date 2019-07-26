@@ -10,10 +10,10 @@
 namespace App\eZ\Platform\Core\Repository;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\SectionService}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\SectionService}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\SectionService
+ * @see \App\eZ\Platform\API\Repository\SectionService
  */
 interface Sessionable
 {

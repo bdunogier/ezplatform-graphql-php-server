@@ -1,0 +1,61 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+
+    App\eZ\Platform\API\Repository\ContentService:
+        class: 'App\eZ\Platform\Core\Repository\ContentService'
+
+    App\eZ\Platform\API\Repository\ContentTypeService:
+        class: 'App\eZ\Platform\Core\Repository\ContentTypeService'
+
+    App\eZ\Platform\API\Repository\FieldTypeService:
+        class: 'App\eZ\Platform\Core\Repository\FieldTypeService'
+        arguments:
+            $fieldTypes:
+                - '@App\eZ\Platform\Core\FieldType\TextLine\Type'
+                - '@App\eZ\Platform\Core\FieldType\Author\Type'
+
+    App\eZ\Platform\Core\FieldType\TextLine\Type: ~
+
+    App\eZ\Platform\Core\FieldType\Author\Type: ~
+
+    App\eZ\Platform\Core\FieldType\ImageAsset\AssetMapper: ~
+
+    App\eZ\Platform\Core\FieldType\Image\VariationHandler: ~
+
+    App\DependencyInjection\Factory\InputHandlerFactory: ~
+
+    App\eZ\Platform\API\Repository\LanguageService:
+        class: 'App\eZ\Platform\Core\Repository\LanguageService'
+        arguments:
+            $defaultLanguageCode: 'eng-GB'
+
+    App\eZ\Platform\API\Repository\LocationService:
+        class: 'App\eZ\Platform\Core\Repository\LocationService'
+
+    App\eZ\Platform\API\Repository\ObjectStateService:
+        class: 'App\eZ\Platform\Core\Repository\ObjectStateService'
+
+    App\eZ\Platform\API\Repository\Repository:
+        class: 'App\eZ\Platform\Core\Repository\Repository'
+        arguments:
+            $fieldTypes: []
+
+    App\eZ\Platform\API\Repository\RoleService:
+        class: 'App\eZ\Platform\Core\Repository\RoleService'
+
+    App\eZ\Platform\API\Repository\SearchService:
+        class: 'App\eZ\Platform\Core\Repository\SearchService'
+
+    App\eZ\Platform\API\Repository\SectionService:
+        class: 'App\eZ\Platform\Core\Repository\SectionService'
+
+    App\eZ\Platform\API\Repository\TrashService:
+        class: 'App\eZ\Platform\Core\Repository\TrashService'
+
+    App\eZ\Platform\API\Repository\URLAliasService:
+        class: 'App\eZ\Platform\Core\Repository\URLAliasService'
+
+    App\eZ\Platform\API\Repository\UserService:
+        class: 'App\eZ\Platform\Core\Repository\UserService'

@@ -8,9 +8,9 @@
  */
 namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
 
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 use eZ\Publish\Core\Base\Exceptions;
 use eZ\Publish\Core\REST\Server\Values\RestViewInput;
 
@@ -22,7 +22,7 @@ class ViewInput extends ValueObjectVisitor
     /**
      * @param Visitor $visitor
      * @param Generator $generator
-     * @param \eZ\Publish\Core\Repository\Values\ViewInput $data
+     * @param \App\eZ\Platform\Core\Repository\Values\ViewInput $data
      * @throws Exceptions\InvalidArgumentException
      */
     public function visit(Visitor $visitor, Generator $generator, $data)

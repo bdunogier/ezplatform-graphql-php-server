@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\Content;
 use App\eZ\Platform\API\Repository\Values\Content\Location as APILocation;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\Location}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\Location}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\Location
+ * @see \App\eZ\Platform\API\Repository\Values\Content\Location
  */
 class Location extends APILocation
 {
@@ -29,10 +29,15 @@ class Location extends APILocation
     /**
      * Returns the content info of the content object of this location.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \App\eZ\Platform\API\Repository\Values\Content\ContentInfo
      */
     public function getContentInfo()
     {
         return $this->contentInfo;
     }
+
+    /**
+     * References to other resources from the Location
+     */
+    protected $references = [];
 }

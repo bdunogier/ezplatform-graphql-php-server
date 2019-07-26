@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    App\GraphQL\DataLoader\:
+        resource: ../../src/GraphQL/DataLoader
+
+    App\GraphQL\DataLoader\CachedContentLoader:
+        arguments:
+            - '@App\GraphQL\DataLoader\SearchContentLoader'
+
+    App\GraphQL\DataLoader\ContentLoader: '@App\GraphQL\DataLoader\CachedContentLoader'
+
+    App\GraphQL\DataLoader\CachedContentTypeLoader:
+        arguments:
+            - '@App\GraphQL\DataLoader\RepositoryContentTypeLoader'
+
+    App\GraphQL\DataLoader\ContentTypeLoader: '@App\GraphQL\DataLoader\CachedContentTypeLoader'

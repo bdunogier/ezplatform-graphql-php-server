@@ -8,10 +8,10 @@
  */
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Exceptions;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Exceptions;
 use App\eZ\Platform\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
 use App\eZ\Platform\Core\Repository\Values\ViewResult as ViewResultValue;
 
 /**
@@ -23,9 +23,9 @@ class ViewResult extends BaseParser
      * Parses input structure to a RestViewInput struct.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @throws \eZ\Publish\Core\REST\Common\Exceptions\Parser
+     * @throws \App\eZ\Platform\Core\Repository\Exceptions\Parser
      *
      * @return \eZ\Publish\Core\REST\Server\Values\RestViewInput
      */

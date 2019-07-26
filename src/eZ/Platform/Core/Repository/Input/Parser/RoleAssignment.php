@@ -9,8 +9,8 @@
 
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
 use App\eZ\Platform\API\Repository\Values\User\Limitation as APILimitation;
 use eZ\Publish\Core\REST\Client;
 
@@ -23,9 +23,9 @@ class RoleAssignment extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
-     * @return \eZ\Publish\API\Repository\Values\User\RoleAssignment
+     * @return \App\eZ\Platform\API\Repository\Values\User\RoleAssignment
      *
      * @todo Error handling
      * @todo Use dependency injection system for Role Limitation lookup
@@ -37,11 +37,11 @@ class RoleAssignment extends BaseParser
             $limitation = $parsingDispatcher->parse($data['limitation'], $data['limitation']['_media-type']);
             switch ($limitation->getIdentifier()) {
                 case APILimitation::SECTION:
-                    $roleLimitation = new \eZ\Publish\API\Repository\Values\User\Limitation\SectionLimitation();
+                    $roleLimitation = new \App\eZ\Platform\API\Repository\Values\User\Limitation\SectionLimitation();
                     break;
 
                 case APILimitation::SUBTREE:
-                    $roleLimitation = new \eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation();
+                    $roleLimitation = new \App\eZ\Platform\API\Repository\Values\User\Limitation\SubtreeLimitation();
                     break;
 
                 default:

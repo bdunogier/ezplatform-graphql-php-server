@@ -13,7 +13,7 @@ use App\eZ\Platform\Core\Repository\ContentTypeService;
 use App\eZ\Platform\API\Repository\Values\Content\ContentInfo as APIContentInfo;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\Content\ContentInfo}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\Content\ContentInfo}
  * class.
  *
  * @property-read mixed $id The unique id of the content object
@@ -30,7 +30,7 @@ use App\eZ\Platform\API\Repository\Values\Content\ContentInfo as APIContentInfo;
  * @property-read string $mainLanguageCode The main language code of the content. If the available flag is set to true the content is shown in this language if the requested language does not exist.
  * @property-read mixed $mainLocationId Identifier of the main location.
  *
- * @see \eZ\Publish\API\Repository\Values\Content\ContentInfo
+ * @see \App\eZ\Platform\API\Repository\Values\Content\ContentInfo
  */
 class ContentInfo extends APIContentInfo
 {

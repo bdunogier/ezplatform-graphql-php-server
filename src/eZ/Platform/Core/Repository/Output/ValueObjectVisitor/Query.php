@@ -6,9 +6,9 @@
 namespace App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
 
 use App\eZ\Platform\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\Core\REST\Common\Output\Generator;
-use eZ\Publish\Core\REST\Common\Output\ValueObjectVisitor;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Output\Generator;
+use App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
 use eZ\Publish\Core\Base\Exceptions;
 use App\eZ\Platform\API\Repository\Values\Content\LocationQuery as LocationQueryValue;
 use App\eZ\Platform\API\Repository\Values\Content\Query as ContentQueryValue;

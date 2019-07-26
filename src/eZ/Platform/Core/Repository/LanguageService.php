@@ -10,17 +10,18 @@
 namespace App\eZ\Platform\Core\Repository;
 
 use App\eZ\Platform\API\Repository\LanguageService as APILanguageService;
+use App\eZ\Platform\API\Repository\ContentService as APIContentService;
 use App\eZ\Platform\API\Repository\Values\Content\Language;
 use App\eZ\Platform\API\Repository\Values\Content\LanguageCreateStruct;
-use eZ\Publish\Core\REST\Common\RequestParser;
-use eZ\Publish\Core\REST\Common\Input\Dispatcher;
-use eZ\Publish\Core\REST\Common\Output\Visitor;
+use App\eZ\Platform\Core\Repository\Input\Dispatcher;
+use App\eZ\Platform\Core\Repository\Output\Visitor;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\LanguageService}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\LanguageService}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\LanguageService
+ * @see \App\eZ\Platform\API\Repository\LanguageService
  */
 class LanguageService implements APILanguageService, Sessionable
 {
@@ -33,26 +34,26 @@ class LanguageService implements APILanguageService, Sessionable
     /** @var \App\eZ\Platform\Core\Repository\HttpClient */
     private $client;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\Dispatcher */
+    /** @var \App\eZ\Platform\Core\Repository\Input\Dispatcher */
     private $inputDispatcher;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\Output\Visitor */
+    /** @var \App\eZ\Platform\Core\Repository\Output\Visitor */
     private $outputVisitor;
 
-    /** @var \App\eZ\Platform\Core\REST\Common\RequestParser */
+    /** @var \App\eZ\Platform\Core\Repository\RequestParser */
     private $requestParser;
 
     /**
-     * @param \eZ\Publish\Core\Repository\HttpClient $client
-     * @param \eZ\Publish\Core\REST\Common\Input\Dispatcher $inputDispatcher
-     * @param \eZ\Publish\Core\REST\Common\Output\Visitor $outputVisitor
-     * @param \eZ\Publish\Core\REST\Common\RequestParser $requestParser
+     * @param \App\eZ\Platform\Core\Repository\\Symfony\Contracts\HttpClient\HttpClientInterface $ezpRestClient
+     * @param \App\eZ\Platform\Core\Repository\Input\Dispatcher $inputDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Output\Visitor $outputVisitor
+     * @param \App\eZ\Platform\Core\Repository\RequestParser $requestParser
      */
-    public function __construct(ContentService $contentService, $defaultLanguageCode, HttpClient $client, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
+    public function __construct(APIContentService $contentService, $defaultLanguageCode, HttpClientInterface $ezpRestClient, Dispatcher $inputDispatcher, Visitor $outputVisitor, RequestParser $requestParser)
     {
         $this->contentService = $contentService;
         $this->defaultLanguageCode = $defaultLanguageCode;
-        $this->client = $client;
+        $this->client = $ezpRestClient;
         $this->inputDispatcher = $inputDispatcher;
         $this->outputVisitor = $outputVisitor;
         $this->requestParser = $requestParser;
@@ -77,12 +78,12 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Creates the a new Language in the content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the languageCode already exists
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException if the languageCode already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LanguageCreateStruct $languageCreateStruct
+     * @param \App\eZ\Platform\API\Repository\Values\Content\LanguageCreateStruct $languageCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Language
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Language
      */
     public function createLanguage(LanguageCreateStruct $languageCreateStruct)
     {
@@ -92,12 +93,12 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Changes the name of the language in the content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Language $language
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Language $language
      * @param string $newName
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Language
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Language
      */
     public function updateLanguageName(Language $language, $newName)
     {
@@ -107,9 +108,9 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Enables a language.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Language $language
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Language $language
      */
     public function enableLanguage(Language $language)
     {
@@ -119,9 +120,9 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Disables a language.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Language $language
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Language $language
      */
     public function disableLanguage(Language $language)
     {
@@ -131,11 +132,11 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Loads a Language from its language code ($languageCode).
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if language could not be found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if language could not be found
      *
      * @param string $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Language
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Language
      */
     public function loadLanguage($languageCode)
     {
@@ -145,21 +146,24 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Loads all Languages.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Language[]
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Language[]
      */
     public function loadLanguages()
     {
-        throw new \Exception('@todo: Implement.');
+        // @todo implement me
+        return [
+            new Language(['languageCode' => 'eng-GB'])
+        ];
     }
 
     /**
      * Loads a Language by its id ($languageId).
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if language could not be found
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\NotFoundException if language could not be found
      *
      * @param mixed $languageId
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Language
+     * @return \App\eZ\Platform\API\Repository\Values\Content\Language
      */
     public function loadLanguageById($languageId)
     {
@@ -185,12 +189,12 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Deletes  a language from content repository.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\InvalidArgumentException
      *         if language can not be deleted
      *         because it is still assigned to some content / type / (...).
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
+     * @throws \App\eZ\Platform\API\Repository\Exceptions\UnauthorizedException If user does not have access to content translations
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Language $language
+     * @param \App\eZ\Platform\API\Repository\Values\Content\Language $language
      */
     public function deleteLanguage(Language $language)
     {
@@ -210,7 +214,7 @@ class LanguageService implements APILanguageService, Sessionable
     /**
      * Instantiates an object to be used for creating languages.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\LanguageCreateStruct
+     * @return \App\eZ\Platform\API\Repository\Values\Content\LanguageCreateStruct
      */
     public function newLanguageCreateStruct()
     {

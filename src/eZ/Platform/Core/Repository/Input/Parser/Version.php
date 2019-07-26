@@ -9,9 +9,9 @@
 namespace App\eZ\Platform\Core\Repository\Input\Parser;
 
 use App\eZ\Platform\API\Repository\ContentTypeService;
-use eZ\Publish\Core\REST\Common\Input\BaseParser;
-use eZ\Publish\Core\REST\Common\Input\ParsingDispatcher;
-use eZ\Publish\Core\REST\Common\Input\ParserTools;
+use App\eZ\Platform\Core\Repository\Input\BaseParser;
+use App\eZ\Platform\Core\Repository\Input\ParsingDispatcher;
+use App\eZ\Platform\Core\Repository\Input\ParserTools;
 use App\eZ\Platform\API\Repository\ContentService;
 use eZ\Publish\Core\REST\Server\Values\Version as VersionValue;
 
@@ -20,7 +20,7 @@ use eZ\Publish\Core\REST\Server\Values\Version as VersionValue;
  */
 class Version extends BaseParser
 {
-    /** @var \App\eZ\Platform\Core\REST\Common\Input\ParserTools */
+    /** @var \App\eZ\Platform\Core\Repository\Input\ParserTools */
     protected $parserTools;
 
     /**
@@ -34,9 +34,9 @@ class Version extends BaseParser
     private $contentTypeService;
 
     /**
-     * @param \eZ\Publish\Core\REST\Common\Input\ParserTools $parserTools
-     * @param \eZ\Publish\API\Repository\ContentService $contentService
-     * @param \eZ\Publish\API\Repository\ContentTypeService $contentTypeService
+     * @param \App\eZ\Platform\Core\Repository\Input\ParserTools $parserTools
+     * @param \App\eZ\Platform\API\Repository\ContentService $contentService
+     * @param \App\eZ\Platform\API\Repository\ContentTypeService $contentTypeService
      */
     public function __construct(ParserTools $parserTools, ContentService $contentService, ContentTypeService $contentTypeService)
     {
@@ -49,7 +49,7 @@ class Version extends BaseParser
      * Parse input structure.
      *
      * @param array $data
-     * @param \eZ\Publish\Core\REST\Common\Input\ParsingDispatcher $parsingDispatcher
+     * @param \App\eZ\Platform\Core\Repository\Input\ParsingDispatcher $parsingDispatcher
      *
      * @return \eZ\Publish\Core\REST\Server\Values\Version
      */

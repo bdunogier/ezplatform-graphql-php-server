@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Values\User;
 use App\eZ\Platform\API\Repository\Values\User\Role as APIRole;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Values\User\Role}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Values\User\Role}
  * class.
  *
- * @see \eZ\Publish\API\Repository\Values\User\Role
+ * @see \App\eZ\Platform\API\Repository\Values\User\Role
  */
 class Role extends APIRole
 {
@@ -26,7 +26,7 @@ class Role extends APIRole
      * Instantiates a role stub instance.
      *
      * @param array $properties
-     * @param \eZ\Publish\API\Repository\Values\User\Policy[] $policies
+     * @param \App\eZ\Platform\API\Repository\Values\User\Policy[] $policies
      */
     public function __construct(array $properties = array(), array $policies = array())
     {
@@ -38,7 +38,7 @@ class Role extends APIRole
     /**
      * Returns the list of policies of this role.
      *
-     * @return \eZ\Publish\API\Repository\Values\User\Policy[]
+     * @return \App\eZ\Platform\API\Repository\Values\User\Policy[]
      */
     public function getPolicies()
     {

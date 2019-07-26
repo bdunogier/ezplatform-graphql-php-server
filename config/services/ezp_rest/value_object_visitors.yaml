@@ -1,0 +1,143 @@
+services:
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor:
+        calls:
+            - [ setRequestParser, [ '@App\eZ\Platform\Core\Repository\RequestParser' ] ]
+            - [ setRouter, [ "@router" ] ]
+            - [ setTemplateRouter, [ "@ezpublish_rest.templated_router"] ]
+
+    # Section
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\SectionCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\SectionCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\SectionUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\SectionUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\VersionUpdate:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        arguments: [ '@App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer'  ]
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\Repository\Values\Content\VersionUpdate }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\RestContentCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        arguments: [ '@App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer'  ]
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\REST\Server\Values\RestContentCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\SessionInput:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\REST\Server\Values\SessionInput }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\FieldDefinitionCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        arguments:
+            - '@App\eZ\Platform\Core\Repository\Output\FieldTypeSerializer'
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\REST\Server\Values\FieldDefinitionCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ContentTypeCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\Repository\Values\ContentType\ContentTypeCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ContentTypeGroupCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroupCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ContentTypeGroupUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroupUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\RoleCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\REST\Client\Values\User\RoleCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\RoleUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\REST\Client\Values\User\RoleUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\RoleAssignment:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\REST\Client\Values\User\RoleAssignment }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\PolicyCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\REST\Client\Values\User\PolicyCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\PolicyUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\REST\Client\Values\User\PolicyUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\Limitation:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\User\Limitation }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\LocationCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\LocationCreateStruct }
+        arguments:
+            - '@App\eZ\Platform\API\Repository\LocationService'
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\LocationUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\LocationUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ContentObjectStates:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\Repository\Values\ContentObjectStates }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ObjectStateCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ObjectStateUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateUpdateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ObjectStateGroupCreateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupCreateStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ObjectStateGroupUpdateStruct:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\ObjectState\ObjectStateGroupUpdataStruct }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\ViewInput:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\Core\Repository\Values\ViewInput }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\Query:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\Query }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\Criterion\ContentTypeIdentifier:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier }
+
+    App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor\Criterion\ContentId:
+        parent: App\eZ\Platform\Core\Repository\Output\ValueObjectVisitor
+        tags:
+            - { name: ezpublish_rest.output.value_object_visitor, type: App\eZ\Platform\API\Repository\Values\Content\Query\Criterion\ContentId }

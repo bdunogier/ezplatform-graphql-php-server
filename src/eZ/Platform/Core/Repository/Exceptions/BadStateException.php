@@ -12,10 +12,10 @@ namespace App\eZ\Platform\Core\Repository\Exceptions;
 use App\eZ\Platform\API\Repository\Exceptions\BadStateException as APIBadStateException;
 
 /**
- * Implementation of the {@link \eZ\Publish\API\Repository\Exceptions\BadStateException}
+ * Implementation of the {@link \App\eZ\Platform\API\Repository\Exceptions\BadStateException}
  * interface.
  *
- * @see \eZ\Publish\API\Repository\Exceptions\BadStateException
+ * @see \App\eZ\Platform\API\Repository\Exceptions\BadStateException
  */
 class BadStateException extends APIBadStateException
 {

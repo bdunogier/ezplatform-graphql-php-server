@@ -29,7 +29,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * Creates a new draft with $innerContentType.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $innerContentType
+     * @param \App\eZ\Platform\API\Repository\Values\ContentType\ContentType $innerContentType
      */
     public function __construct(Values\ContentType\ContentType $innerContentType)
     {
@@ -42,7 +42,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * ONLY FOR INTERNAL USE IN THE INTEGRATION TEST SUITE.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentType
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\ContentType
      */
     public function getInnerContentType()
     {
@@ -84,7 +84,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * This method returns the content type groups this content type is assigned to.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\ContentTypeGroup[]
      */
     public function getContentTypeGroups()
     {
@@ -94,7 +94,7 @@ class ContentTypeDraft extends APIContentTypeDraft
     /**
      * This method returns the content type field definitions from this type.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition[]
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition[]
      */
     public function getFieldDefinitions()
     {
@@ -106,7 +106,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      *
      * @param string $fieldDefinitionIdentifier
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition
+     * @return \App\eZ\Platform\API\Repository\Values\ContentType\FieldDefinition
      */
     public function getFieldDefinition($fieldDefinitionIdentifier)
     {
